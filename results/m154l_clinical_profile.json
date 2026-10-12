@@ -1,0 +1,70 @@
+{
+  "variant": "M154L",
+  "position": 154,
+  "structural_motif": "Alpha-3 helix",
+  "clinical_significance": "Defining mutation in NDM-4, NDM-5, NDM-7, NDM-15 with enhanced zinc affinity under physiological starvation",
+  "phenotypes_across_antibiotics": {
+    "256.0_AMP": {
+      "fitness_true": 0.4852236775793803,
+      "pred_mu": -5.863405227661133,
+      "pred_sigma": 2.748030424118042,
+      "certified_bound": 9.754840850830078,
+      "lower_bound": -15.618246078491211,
+      "upper_bound": 3.8914356231689453,
+      "covered": true,
+      "clinical_call": "Ambiguous (Triage for Lab)"
+    },
+    "16.0_CTX": {
+      "fitness_true": 0.0322704499541326,
+      "pred_mu": -3.360407829284668,
+      "pred_sigma": 2.234668254852295,
+      "certified_bound": 4.810693264007568,
+      "lower_bound": -8.171100616455078,
+      "upper_bound": 1.4502854347229004,
+      "covered": true,
+      "clinical_call": "Ambiguous (Triage for Lab)"
+    },
+    "0.25_MEM": {
+      "fitness_true": 0.1924089656736833,
+      "pred_mu": -3.16709041595459,
+      "pred_sigma": 2.2126832008361816,
+      "certified_bound": 4.890115737915039,
+      "lower_bound": -8.057206153869629,
+      "upper_bound": 1.7230253219604492,
+      "covered": true,
+      "clinical_call": "Ambiguous (Triage for Lab)"
+    }
+  },
+  "allosteric_coupling_to_zinc_catalytic_pocket": {
+    "His120": {
+      "pos": 120,
+      "dci_asym_154_to_residue": 0.4316110298338326,
+      "interpretation": "Driver"
+    },
+    "His122": {
+      "pos": 122,
+      "dci_asym_154_to_residue": 0.15651824382323531,
+      "interpretation": "Driver"
+    },
+    "Asp124": {
+      "pos": 124,
+      "dci_asym_154_to_residue": 0.31890775876087574,
+      "interpretation": "Driver"
+    },
+    "His189": {
+      "pos": 189,
+      "dci_asym_154_to_residue": 0.2024820206897463,
+      "interpretation": "Driver"
+    },
+    "Cys208": {
+      "pos": 208,
+      "dci_asym_154_to_residue": 0.2636680206779575,
+      "interpretation": "Driver"
+    },
+    "His250": {
+      "pos": 250,
+      "dci_asym_154_to_residue": 0.11741571395420358,
+      "interpretation": "Driver"
+    }
+  }
+}

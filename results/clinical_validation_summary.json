@@ -1,0 +1,57 @@
+{
+  "clinical_validation_complete": true,
+  "num_unexposed_validation_variants": 22,
+  "total_records": 66,
+  "validation_containment_rates": {
+    "256.0_AMP": 1.0,
+    "16.0_CTX": 1.0,
+    "0.25_MEM": 0.9545454545454546
+  },
+  "test_only_containment_rates": {
+    "256.0_AMP": 1.0,
+    "16.0_CTX": 1.0,
+    "0.25_MEM": 1.0
+  },
+  "m154l_containment": {
+    "256.0_AMP": true,
+    "16.0_CTX": true,
+    "0.25_MEM": true
+  },
+  "decision_utility": [
+    {
+      "condition": "256.0_AMP",
+      "num_test_mutations": 612,
+      "true_resistant": 200,
+      "true_susceptible": 238,
+      "certified_containment": "99.2%",
+      "false_safety_count": 0,
+      "triage_rate": "100.0%",
+      "decisive_rate": "0.0%"
+    },
+    {
+      "condition": "16.0_CTX",
+      "num_test_mutations": 612,
+      "true_resistant": 276,
+      "true_susceptible": 155,
+      "certified_containment": "94.9%",
+      "false_safety_count": 0,
+      "triage_rate": "100.0%",
+      "decisive_rate": "0.0%"
+    },
+    {
+      "condition": "0.25_MEM",
+      "num_test_mutations": 612,
+      "true_resistant": 253,
+      "true_susceptible": 175,
+      "certified_containment": "95.1%",
+      "false_safety_count": 0,
+      "triage_rate": "100.0%",
+      "decisive_rate": "0.0%"
+    }
+  ],
+  "files_generated": [
+    "bldb_variant_certificates.csv",
+    "clinical_decision_metrics.csv",
+    "m154l_clinical_profile.json"
+  ]
+}

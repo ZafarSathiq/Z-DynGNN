@@ -84,6 +84,12 @@ class DynamicsMessagePassingLayer(nn.Module):
         dst_nodes = edge_index[1]
         n_nodes = h.size(0)
 
+        # Defensive ensure 2D shapes
+        if edge_attr.dim() == 1:
+            edge_attr = edge_attr.view(-1, 1)
+        if dci_edge.dim() == 1:
+            dci_edge = dci_edge.view(-1, 1)
+
         # Concatenate source node features, edge attributes, and DCI_asym modulation
         msg_input = torch.cat([h[src_nodes], edge_attr, dci_edge], dim=-1)
         messages = self.msg_mlp(msg_input)

@@ -1,0 +1,4 @@
+condition,num_test_mutations,true_resistant,true_susceptible,certified_containment,false_safety_count,triage_rate,decisive_rate
+256.0_AMP,612,200,238,99.2%,0,100.0%,0.0%
+16.0_CTX,612,276,155,94.9%,0,100.0%,0.0%
+0.25_MEM,612,253,175,95.1%,0,100.0%,0.0%
