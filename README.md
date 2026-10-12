@@ -108,5 +108,5 @@ tests/test_imports.py::test_imports PASSED [100%]
 - [x] **Step 3: Graph Topology & Dynamics** (8.0 Å contact graph, Perturbation Response Scanning, $\text{DCI}_{\text{asym}}$).
 - [x] **Step 4: Position-Disjoint Splitting** (70/15/15 disjoint partitions, zero positional leakage).
 - [x] **Step 5: Z-DynGNN Modeling** (Z-score Calibrated Dynamics-Aware Graph Neural Network with dual mean/variance heads, Gaussian NLL loss, site-mean & ESM-2 baselines).
-- [ ] **Step 6: Topology-Conditioned Conformal Calibration** (Structural binning, studentized non-conformity scores, finite-sample quantiles).
+- [x] **Step 6: Topology-Conditioned Conformal Calibration** (Structural binning, studentized non-conformity scores, finite-sample quantiles).
 - [ ] **Step 7: Evaluation, Noise Ceilings & Clinical Validation** (Empirical test coverage $\ge 1 - \alpha$, sharpness evaluation, BLDB variants & M154L validation).

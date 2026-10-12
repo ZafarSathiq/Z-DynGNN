@@ -1,0 +1,8 @@
+Remaining minor points / recommendations
+
+Terminology — The proposed split (“Topology-Conditioned” for diagnostics vs “Cluster-Adjusted” for the formal guarantee) is clear and should be used consistently in the manuscript and code comments.
+Default choice — Lock agg_quantile = 0.90 (or 0.95) as the production setting and report both the coverage and the resulting mean/median widths for all three drugs at that setting.
+Step 7 priority — The most important remaining check is still the clinical one: how often do the certified intervals correctly contain (or correctly exclude) known BLDB resistance phenotypes and the M154L allosteric variant relative to MIC breakpoints. Interval width relative to the noise ceiling is secondary to that utility question.
+Optional strengthening — If you want tighter intervals while preserving coverage, consider a hybrid: use position-level aggregation for the quantile, then still multiply by the local $\hat{\sigma}(x_i)$. You already do the latter; the main lever left is the aggregation percentile and possibly a light shrinkage of extreme $\hat{\sigma}$.
+
+Overall verdict: The clarifications are scientifically sound, the root causes are correctly identified, and the proposed fixes (especially the aggregation-quantile standardization) restore a uniform ≥95% guarantee across antibiotics. This version of Step 6 is now in good shape for the paper, provided the terminology is cleaned up and the clinical utility numbers from Step 7 are added.
