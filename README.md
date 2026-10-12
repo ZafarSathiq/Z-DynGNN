@@ -106,7 +106,7 @@ tests/test_imports.py::test_imports PASSED [100%]
 - [x] **Step 1: Environment & Project Structure** (Nix flake, virtualenv, dependencies, module layout, tests).
 - [x] **Step 2: Data Acquisition & Preprocessing** (PDB 3SPU Cα coordinate extraction, Chen et al. 2024 DMS loader, replicate variance).
 - [x] **Step 3: Graph Topology & Dynamics** (8.0 Å contact graph, Perturbation Response Scanning, $\text{DCI}_{\text{asym}}$).
-- [ ] **Step 4: Position-Disjoint Splitting** (70/15/15 disjoint partitions, zero positional leakage).
-- [ ] **Step 5: Z-DynGNN Modeling** (Z-score Calibrated Dynamics-Aware Graph Neural Network with dual mean/variance heads, Gaussian NLL loss, site-mean & ESM-2 baselines).
+- [x] **Step 4: Position-Disjoint Splitting** (70/15/15 disjoint partitions, zero positional leakage).
+- [x] **Step 5: Z-DynGNN Modeling** (Z-score Calibrated Dynamics-Aware Graph Neural Network with dual mean/variance heads, Gaussian NLL loss, site-mean & ESM-2 baselines).
 - [ ] **Step 6: Topology-Conditioned Conformal Calibration** (Structural binning, studentized non-conformity scores, finite-sample quantiles).
 - [ ] **Step 7: Evaluation, Noise Ceilings & Clinical Validation** (Empirical test coverage $\ge 1 - \alpha$, sharpness evaluation, BLDB variants & M154L validation).

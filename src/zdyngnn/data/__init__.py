@@ -15,7 +15,13 @@ from zdyngnn.data.noise_ceiling import (
 )
 from zdyngnn.data.pdb_parser import PDBStructureData, parse_pdb_structure
 from zdyngnn.data.pipeline import prepare_and_cache_datasets
-
+from zdyngnn.data.split import (
+    PositionDisjointSplit,
+    map_split_to_mutation_indices,
+    split_positions_disjoint,
+    split_positions_kfold,
+    verify_disjoint_invariants,
+)
 __all__ = [
     "PDBStructureData",
     "parse_pdb_structure",
@@ -30,4 +36,9 @@ __all__ = [
     "noise_ceilings_to_dataframe",
     "compute_normalized_metrics",
     "prepare_and_cache_datasets",
+    "PositionDisjointSplit",
+    "split_positions_disjoint",
+    "split_positions_kfold",
+    "map_split_to_mutation_indices",
+    "verify_disjoint_invariants",
 ]
