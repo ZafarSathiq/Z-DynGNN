@@ -81,12 +81,13 @@ def run_clinical_evaluation(
             print(f"[!] Warning: Checkpoint {ckpt_path} not found. Skipping {cond}.")
             continue
 
-        # Load production quantile
+        # Load production quantiles (two-sided and one-sided upper)
         with open(res_dir / "conformal_summary.json") as f:
             conf_sum = json.load(f)
-        q_prod = float(conf_sum[cond]["cluster_adjusted_conformal"]["quantile"])
+        q_two = float(conf_sum[cond]["cluster_adjusted_conformal"]["quantile"])
+        q_up = float(conf_sum[cond]["one_sided_upper_conformal"]["quantile"])
 
-        # Load model and run inference on BLDB variants
+        # Load model and run inference on validation variants
         ckpt = torch.load(ckpt_path, map_location=device)
         model = ZDynGNN(node_in_dim=34, num_rbf=16, hidden_dim=64, num_layers=3)
         model.load_state_dict(ckpt["model_state_dict"])
@@ -103,24 +104,31 @@ def run_clinical_evaluation(
 
         mu_np = mu_bldb.numpy().flatten()
         sigma_np = sigma_bldb.numpy().flatten()
-        bounds_np = q_prod * sigma_np
-        lower_np = mu_np - bounds_np
-        upper_np = mu_np + bounds_np
+
+        # Two-sided bounds
+        b_two_np = q_two * sigma_np
+        lower_two_np = mu_np - b_two_np
+        upper_two_np = mu_np + b_two_np
+
+        # One-sided upper bounds
+        margin_up_np = q_up * sigma_np
+        upper_up_np = mu_np + margin_up_np
+
         y_true_np = bldb_sub_df[score_col].values.astype(float)
-        covered_np = (y_true_np >= lower_np) & (y_true_np <= upper_np)
+        covered_two_np = (y_true_np >= lower_two_np) & (y_true_np <= upper_two_np)
+        covered_up_np = y_true_np <= upper_up_np
 
-        print(f"\n--- Condition: {cond} (q_prod = {q_prod:.3f}) ---")
-        print(f"    BLDB Variants Evaluated: {len(bldb_sub_df)}")
-        print(f"    Clinical Containment Rate: {np.mean(covered_np)*100:.1f}%")
-        print(f"    Mean Certified Width: {np.mean(upper_np - lower_np):.3f} log2-units")
-
+        print(f"\n--- Condition: {cond} (q_two = {q_two:.3f}, q_up = {q_up:.3f}) ---")
+        print(f"    Validation Variants Evaluated: {len(bldb_sub_df)}")
+        print(f"    Two-Sided Containment: {np.mean(covered_two_np)*100:.1f}% | Mean Width 2B: {np.mean(upper_two_np - lower_two_np):.3f} log2-units")
+        print(f"    One-Sided Upper Coverage: {np.mean(covered_up_np)*100:.1f}% | Mean Upper Margin B: {np.mean(margin_up_np):.3f} log2-units")
         for idx, row in bldb_sub_df.iterrows():
             mut_id = str(row["mutation"])
             meta = bldb_map[mut_id]
             p = int(row["pos"])
             part = "TRAIN" if p in train_positions else ("CALIB" if p in calib_positions else "TEST")
 
-            call = classify_clinical_decision(lower_np[idx], upper_np[idx], mu_np[idx])
+            call = classify_clinical_decision(lower_two_np[idx], upper_two_np[idx], mu_np[idx])
 
             record = {
                 "condition": cond,
@@ -134,13 +142,19 @@ def run_clinical_evaluation(
                 "fitness_true": y_true_np[idx],
                 "pred_mu": float(mu_np[idx]),
                 "pred_sigma": float(sigma_np[idx]),
-                "conformal_quantile": q_prod,
-                "certified_bound": float(bounds_np[idx]),
-                "lower_bound": float(lower_np[idx]),
-                "upper_bound": float(upper_np[idx]),
-                "interval_width": float(upper_np[idx] - lower_np[idx]),
-                "covered": bool(covered_np[idx]),
+                "conformal_quantile": q_two,
+                "certified_bound": float(b_two_np[idx]),
+                "lower_bound": float(lower_two_np[idx]),
+                "upper_bound": float(upper_two_np[idx]),
+                "interval_width": float(upper_two_np[idx] - lower_two_np[idx]),
+                "covered": bool(covered_two_np[idx]),
                 "clinical_call": call,
+                # One-sided upper bound metrics
+                "quantile_one_sided_upper": q_up,
+                "margin_one_sided_upper": float(margin_up_np[idx]),
+                "upper_bound_one_sided": float(upper_up_np[idx]),
+                "covered_one_sided": bool(covered_up_np[idx]),
+                "call_one_sided_upper": "Certified Safe / Non-Resistant" if upper_up_np[idx] < -2.0 else "Potential Resistance Risk",
             }
             all_bldb_records.append(record)
 
@@ -156,18 +170,31 @@ def run_clinical_evaluation(
                 condition=cond,
             )
 
+            test_mu_np = cert_df["pred_mu"].values
+            test_sig_np = cert_df["pred_sigma"].values
+            test_y_np = cert_df["fitness_score"].values
+
+            # Decisive one-sided calls on test set
+            test_up_bounds = test_mu_np + q_up * test_sig_np
+            test_safe_calls = int(np.sum(test_up_bounds < -2.0))
+            test_risk_calls = int(np.sum(test_up_bounds >= -2.0))
+
             decision_records.append({
                 "condition": cond,
                 "num_test_mutations": dec_metrics.num_samples,
                 "true_resistant": dec_metrics.num_true_resistant,
                 "true_susceptible": dec_metrics.num_true_susceptible,
-                "certified_containment": f"{dec_metrics.containment_rate*100:.1f}%",
+                "two_sided_containment": f"{dec_metrics.containment_rate*100:.1f}%",
+                "two_sided_triage_rate": f"{dec_metrics.triage_rate*100:.1f}%",
                 "false_safety_count": dec_metrics.false_safety_count,
-                "triage_rate": f"{dec_metrics.triage_rate*100:.1f}%",
-                "decisive_rate": f"{dec_metrics.decisive_rate*100:.1f}%",
+                "one_sided_upper_coverage": f"{float(np.mean(test_y_np <= test_up_bounds))*100:.1f}%",
+                "one_sided_mean_margin": float(np.mean(q_up * test_sig_np)),
+                "one_sided_certified_safe_calls": test_safe_calls,
+                "one_sided_risk_calls": test_risk_calls,
             })
 
             print(f"    [Decision Utility] True Resistant: {dec_metrics.num_true_resistant}, False Safety Errors: {dec_metrics.false_safety_count}")
+            print(f"    [One-Sided Utility] Upper Coverage: {float(np.mean(test_y_np <= test_up_bounds))*100:.1f}%, Mean Margin B: {float(np.mean(q_up * test_sig_np)):.2f}")
 
     # Save unexposed clinical and experimental validation certificates table
     bldb_all_df = pd.DataFrame(all_bldb_records)

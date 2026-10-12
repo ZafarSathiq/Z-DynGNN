@@ -15,6 +15,7 @@ import pandas as pd
 from zdyngnn.conformal.calibration import (
     ConformalCertificate,
     calibrate_cluster_conformal,
+    calibrate_one_sided_cluster_conformal,
     calibrate_split_conformal,
 )
 from zdyngnn.conformal.stratified import (
@@ -87,11 +88,18 @@ def run_conformal_calibration(
             agg_quantile=0.90,
             condition=condition,
         )
+        cert_upper, bounds_upper = calibrate_one_sided_cluster_conformal(
+            calib_df=calib_df,
+            test_df=test_df,
+            alpha=alpha,
+            agg_quantile=0.90,
+            condition=condition,
+        )
 
         print(f"  [Method 1: Split Conformal]       Empirical Coverage: {cert_split.empirical_coverage*100:.2f}% | Mean Width: {cert_split.mean_interval_width:.3f} | Quantile: {cert_split.quantile:.3f}")
         print(f"  [Method 2: Topology-Conditioned]  Empirical Coverage: {cert_strat.empirical_coverage*100:.2f}% | Mean Width: {cert_strat.mean_interval_width:.3f} | Quantile (mean): {cert_strat.quantile:.3f}")
-        print(f"  [Method 3: Cluster-Adjusted]      Empirical Coverage: {cert_cluster.empirical_coverage*100:.2f}% | Mean Width: {cert_cluster.mean_interval_width:.3f} | Quantile: {cert_cluster.quantile:.3f} *")
-
+        print(f"  [Method 3: Cluster-Adjusted 2-Sided] Empirical Coverage: {cert_cluster.empirical_coverage*100:.2f}% | Mean Width: {cert_cluster.mean_interval_width:.3f} | Quantile: {cert_cluster.quantile:.3f} *")
+        print(f"  [Method 4: One-Sided Upper Bound]    Upper Coverage: {cert_upper.empirical_coverage*100:.2f}% | Mean Margin B: {cert_upper.mean_interval_width:.3f} | Quantile: {cert_upper.quantile:.3f} **")
         # Save certified certificates table combining both methods
         combined_bounds = strat_res.bounds_df.copy()
         combined_bounds = combined_bounds.rename(columns={
@@ -117,6 +125,12 @@ def run_conformal_calibration(
         combined_bounds["interval_width"] = combined_bounds["width_cluster_adjusted"]
         combined_bounds["covered"] = combined_bounds["covered_cluster_adjusted"]
 
+        # One-sided upper bounds
+        combined_bounds["quantile_one_sided_upper"] = cert_upper.quantile
+        combined_bounds["margin_one_sided_upper"] = bounds_upper["margin_one_sided"].values
+        combined_bounds["upper_bound_one_sided"] = bounds_upper["upper_bound_one_sided"].values
+        combined_bounds["covered_one_sided"] = bounds_upper["covered_one_sided"].values
+
         cert_out_path = res_dir / f"conformal_certificates_{condition}.csv"
         combined_bounds.to_csv(cert_out_path, index=False)
 
@@ -140,10 +154,11 @@ def run_conformal_calibration(
                 "stratum_coverage": strat_res.stratum_coverage,
             },
             "cluster_adjusted_conformal": cert_cluster.__dict__,
+            "one_sided_upper_conformal": cert_upper.__dict__,
             "multi_confidence_levels": multi_alpha_stats,
         }
 
-        for m_name, c_obj in [("Split Conformal", cert_split), ("Topology-Conditioned", cert_strat), ("Cluster-Adjusted", cert_cluster)]:
+        for m_name, c_obj in [("Split Conformal", cert_split), ("Topology-Conditioned", cert_strat), ("Cluster-Adjusted 2-Sided", cert_cluster), ("One-Sided Upper Bound", cert_upper)]:
             benchmark_records.append({
                 "condition": condition,
                 "method": m_name,

@@ -23,30 +23,39 @@
       "num_test_mutations": 612,
       "true_resistant": 200,
       "true_susceptible": 238,
-      "certified_containment": "99.2%",
+      "two_sided_containment": "99.2%",
+      "two_sided_triage_rate": "100.0%",
       "false_safety_count": 0,
-      "triage_rate": "100.0%",
-      "decisive_rate": "0.0%"
+      "one_sided_upper_coverage": "99.7%",
+      "one_sided_mean_margin": 4.706103294066568,
+      "one_sided_certified_safe_calls": 0,
+      "one_sided_risk_calls": 612
     },
     {
       "condition": "16.0_CTX",
       "num_test_mutations": 612,
       "true_resistant": 276,
       "true_susceptible": 155,
-      "certified_containment": "94.9%",
+      "two_sided_containment": "94.9%",
+      "two_sided_triage_rate": "100.0%",
       "false_safety_count": 0,
-      "triage_rate": "100.0%",
-      "decisive_rate": "0.0%"
+      "one_sided_upper_coverage": "99.0%",
+      "one_sided_mean_margin": 3.2916863900620097,
+      "one_sided_certified_safe_calls": 0,
+      "one_sided_risk_calls": 612
     },
     {
       "condition": "0.25_MEM",
       "num_test_mutations": 612,
       "true_resistant": 253,
       "true_susceptible": 175,
-      "certified_containment": "95.1%",
+      "two_sided_containment": "95.1%",
+      "two_sided_triage_rate": "100.0%",
       "false_safety_count": 0,
-      "triage_rate": "100.0%",
-      "decisive_rate": "0.0%"
+      "one_sided_upper_coverage": "100.0%",
+      "one_sided_mean_margin": 3.708862954415697,
+      "one_sided_certified_safe_calls": 0,
+      "one_sided_risk_calls": 612
     }
   ],
   "files_generated": [

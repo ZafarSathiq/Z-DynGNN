@@ -65,6 +65,20 @@
       "num_test_samples": 612,
       "coverage_guaranteed": true
     },
+    "one_sided_upper_conformal": {
+      "condition": "256.0_AMP",
+      "method": "one_sided_upper_cluster_conformal",
+      "alpha": 0.05,
+      "nominal_coverage": 0.95,
+      "empirical_coverage": 0.9967320261437909,
+      "quantile": 2.1605501854730096,
+      "mean_interval_width": 4.706103294066568,
+      "median_interval_width": 5.508290721720693,
+      "winkler_score": 0.0,
+      "num_calib_samples": 32,
+      "num_test_samples": 612,
+      "coverage_guaranteed": true
+    },
     "multi_confidence_levels": [
       {
         "nominal_coverage": 0.9,
@@ -152,6 +166,20 @@
       "num_test_samples": 612,
       "coverage_guaranteed": false
     },
+    "one_sided_upper_conformal": {
+      "condition": "16.0_CTX",
+      "method": "one_sided_upper_cluster_conformal",
+      "alpha": 0.05,
+      "nominal_coverage": 0.95,
+      "empirical_coverage": 0.9901960784313726,
+      "quantile": 1.6448320064692525,
+      "mean_interval_width": 3.2916863900620097,
+      "median_interval_width": 3.3907962621314662,
+      "winkler_score": 0.0,
+      "num_calib_samples": 32,
+      "num_test_samples": 612,
+      "coverage_guaranteed": true
+    },
     "multi_confidence_levels": [
       {
         "nominal_coverage": 0.9,
@@ -235,6 +263,20 @@
       "mean_interval_width": 8.945803982112857,
       "median_interval_width": 9.063227088598083,
       "winkler_score": 10.936701930627473,
+      "num_calib_samples": 32,
+      "num_test_samples": 612,
+      "coverage_guaranteed": true
+    },
+    "one_sided_upper_conformal": {
+      "condition": "0.25_MEM",
+      "method": "one_sided_upper_cluster_conformal",
+      "alpha": 0.05,
+      "nominal_coverage": 0.95,
+      "empirical_coverage": 1.0,
+      "quantile": 1.8325308977538934,
+      "mean_interval_width": 3.708862954415697,
+      "median_interval_width": 3.757545689975996,
+      "winkler_score": 0.0,
       "num_calib_samples": 32,
       "num_test_samples": 612,
       "coverage_guaranteed": true

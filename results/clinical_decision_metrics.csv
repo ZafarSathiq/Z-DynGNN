@@ -1,4 +1,4 @@
-condition,num_test_mutations,true_resistant,true_susceptible,certified_containment,false_safety_count,triage_rate,decisive_rate
-256.0_AMP,612,200,238,99.2%,0,100.0%,0.0%
-16.0_CTX,612,276,155,94.9%,0,100.0%,0.0%
-0.25_MEM,612,253,175,95.1%,0,100.0%,0.0%
+condition,num_test_mutations,true_resistant,true_susceptible,two_sided_containment,two_sided_triage_rate,false_safety_count,one_sided_upper_coverage,one_sided_mean_margin,one_sided_certified_safe_calls,one_sided_risk_calls
+256.0_AMP,612,200,238,99.2%,100.0%,0,99.7%,4.706103294066568,0,612
+16.0_CTX,612,276,155,94.9%,100.0%,0,99.0%,3.2916863900620097,0,612
+0.25_MEM,612,253,175,95.1%,100.0%,0,100.0%,3.708862954415697,0,612
