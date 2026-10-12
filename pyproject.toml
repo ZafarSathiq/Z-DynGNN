@@ -3,13 +3,13 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sandcert"
+name = "zdyngnn"
 version = "0.1.0"
-description = "Certified Structural Confidence for NDM-1 Mutation Effect Prediction"
+description = "Z-score Calibrated Dynamics-Aware Graph Neural Network (Z-DynGNN) for Certified NDM-1 Mutation Effect Prediction"
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [
-    { name = "SANDCERT Research Team" }
+    { name = "Zafar Sathiq S" }
 ]
 dependencies = [
     "torch>=2.2.0",

@@ -1,5 +1,5 @@
 {
-  description = "SANDCERT - Certified Structural Confidence for NDM-1 Mutation Effect Prediction";
+  description = "Z-DynGNN: Z-score Calibrated Dynamics-Aware Graph Neural Network";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -15,18 +15,17 @@
     {
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          name = "sandcert-dev";
+          name = "zdyngnn-dev";
           buildInputs = with pkgs; [
             python311
             uv
             git
             curl
             cacert
-          ];
+            zlib
 
           shellHook = ''
-            export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH"
-          '';
+            export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.zlib}/lib:$LD_LIBRARY_PATH"
         };
       });
     };

@@ -1,17 +1,17 @@
-"""Basic import smoke tests for SANDCERT."""
+"""Basic import smoke tests for Z-DynGNN."""
 
 def test_imports():
-    import sandcert
-    import sandcert.data
-    import sandcert.dynamics
-    import sandcert.models
-    import sandcert.conformal
-    import sandcert.eval
-    assert sandcert.__version__ == "0.1.0"
+    import zdyngnn
+    import zdyngnn.data
+    import zdyngnn.dynamics
+    import zdyngnn.models
+    import zdyngnn.conformal
+    import zdyngnn.eval
+    assert zdyngnn.__version__ == "0.1.0"
 
 def test_zdyn_gnn_forward():
     import torch
-    from sandcert.models import ZDynGNN
+    from zdyngnn.models import ZDynGNN
 
     model = ZDynGNN(node_in_dim=20, hidden_dim=64)
     x = torch.randn(10, 20)
