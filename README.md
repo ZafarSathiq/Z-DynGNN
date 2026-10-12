@@ -1,0 +1,111 @@
+# SANDCERT: Certified Structural Confidence for NDM-1 Mutation Effect Prediction
+
+**SANDCERT** (*Structural Architecture for Non-vacuous Distribution-free CERTification*) is a computational biology and machine learning framework designed to predict fitness and resistance mutation effects on **New Delhi metallo-$\beta$-lactamase-1 (NDM-1)** with finite-sample, mathematically certified per-residue confidence bounds:
+
+$$|y_i - \hat{\mu}(x_i)| \le B_i \quad \text{with provable coverage } 1 - \alpha$$
+
+---
+
+## Architecture Overview
+
+```
+z-scancert/
+├── flake.nix                         # Reproducible Nix Flake environment (Python 3.11 + uv + C libraries)
+├── shell.nix                         # Classic Nix shell fallback
+├── pyproject.toml                    # PEP 517/621 package specification
+├── README.md                         # Project documentation and engineering guide
+│
+├── DMS Data NDM-1/                   # Raw Chen et al. 2024 DMS supplement & PDB 3SPU
+│   ├── 41467_2024_52614_MOESM*.xlsx  # Mutational fitness tables & replicates
+│   └── Strutural data/3SPU.pdb       # 1.30 Å resolution crystal structure
+│
+├── data/
+│   ├── raw/                          # Staged raw inputs & clinical BLDB variants
+│   └── processed/                    # PyG graph caches, feature matrices, disjoint split index maps
+│
+├── src/sandcert/
+│   ├── __init__.py                   # Package initialization (v0.1.0)
+│   ├── data/                         # PDB coordinate parsing, contact maps, DMS ingestion, split generation
+│   ├── dynamics/                     # Elastic Network Models (ENM), PRS, and DCI_asym directional coupling
+│   ├── models/                       # Probabilistic Dynamics-Aware GNN (Gaussian NLL head) & baselines
+│   ├── conformal/                    # Structural topology binning & finite-sample quantile calibration
+│   └── eval/                         # Empirical coverage validation, interval sharpness, noise ceilings
+│
+├── scripts/                          # Reproducible execution scripts (Phase 1 to Phase 4)
+└── tests/
+    └── test_imports.py               # Package and scientific stack smoke tests
+```
+
+---
+
+## Theoretical Foundation (Correction v1)
+
+SANDCERT enforces distribution-free **Topology-Conditioned Conformal Risk Control** (Angelopoulos & Bates; Romano et al.):
+
+1. **Exact Finite-Sample Coverage**: For any target confidence $1 - \alpha$ (e.g. 95%), the prediction interval $\mathcal{C}(x_i) = [\hat{\mu}(x_i) - B_i, \hat{\mu}(x_i) + B_i]$ guarantees marginal coverage $\mathbb{P}(y_i \in \mathcal{C}(x_i)) \ge 1 - \alpha$ without Gaussian assumptions on fitness residuals.
+2. **Topology Conditioning**: Instead of uniform error bars across the protein, the certificate scales with local structural and dynamic properties:
+   $$B_i = \hat{q}_{1-\alpha}\left(\mathcal{S}(i)\right) \cdot \hat{\sigma}(x_i)$$
+   where $\mathcal{S}(i)$ discretizes residues by contact coordination number $d_i$ and the Asymmetric Dynamic Coupling Index ($\text{DCI}_{\text{asym}}$).
+3. **Strict Position-Disjoint Partitioning (70% Train / 15% Calib / 15% Test)**: Held-out test positions are never exposed during model training or conformal calibration, eliminating spatial data leakage.
+
+*For full mathematical derivations and technical refutations of the Kim–Vu sandwich theorem on deterministic graphs, see `01. Correction v1 - NDM-1 Strategy.md` and `02. Comprehensive Guide - Original Strategy vs Correction v1 Explained.md`.*
+
+---
+
+## Environment Setup & Installation
+
+### Option A: Nix Flake (Recommended)
+
+The project includes declarative Nix manifests ensuring identical C runtime libraries, compiler toolchains, and package versions:
+
+```bash
+# Enter the Nix dev environment
+nix develop --extra-experimental-features "nix-command flakes"
+```
+
+Inside the shell, Python 3.11, `uv`, Git, curl, and GNU C dynamic libraries are automatically configured.
+
+### Option B: Local Python Virtual Environment
+
+If running outside the Nix dev shell:
+
+```bash
+# 1. Create virtual environment
+uv venv --python python3.11 .venv
+
+# 2. Activate virtual environment
+source .venv/bin/activate
+
+# 3. Install core dependencies
+uv pip install -e ".[dev]"
+```
+
+*Note for Nix / Linux systems*: PyTorch relies on the GNU C++ runtime (`libstdc++.so.6`). The activation script `.venv/bin/activate` automatically sets `LD_LIBRARY_PATH` to resolve dynamic linker dependencies.
+
+---
+
+## Verification & Testing
+
+Verify that the scientific stack and package modules load correctly:
+
+```bash
+source .venv/bin/activate
+pytest tests/ -v
+```
+
+Expected output:
+```
+tests/test_imports.py::test_imports PASSED [100%]
+```
+
+---
+
+## Roadmap
+
+- [x] **Step 1: Environment & Project Structure** (Nix flake, virtualenv, dependencies, module layout, tests).
+- [ ] **Step 2: Data Acquisition & Preprocessing** (PDB 3SPU Cα coordinate extraction, Chen et al. 2024 DMS loader, replicate variance).
+- [ ] **Step 3: Graph Topology & Dynamics** (8.0 Å contact graph, Perturbation Response Scanning, $\text{DCI}_{\text{asym}}$).
+- [ ] **Step 4: Position-Disjoint Splitting** (70/15/15 disjoint partitions, zero positional leakage).
+- [ ] **Step 5: Probabilistic GNN Modeling** (Dual mean/variance heads, Gaussian NLL loss, site-mean & ESM-2 baselines).
+- [ ] **Step 6: Topology-Conditioned Conformal Calibration** (Structural binning, studentized non-conformity scores, finite-sample quantiles).
+- [ ] **Step 7: Evaluation, Noise Ceilings & Clinical Validation** (Empirical test coverage $\ge 1 - \alpha$, sharpness evaluation, BLDB variants & M154L validation).

@@ -1,0 +1,184 @@
+LOCUS       5.1-NDM        2756 bp    DNA     circular     24-APR-2019
+DEFINITION  .
+ACCESSION   urn.local...h-677kjwp (modified)
+KEYWORDS    .
+SOURCE      
+  ORGANISM  
+            .
+COMMENT     This file is created by Vector NTI http://www.invitrogen.com/
+            ORIGDB|GenBank VNTDATE|678639062| VNTDBDATE|678639062| LSOWNER|
+            VNTNAME|pIDR-5.1 NDM Nov2013| VNTAUTHORNAME|Demo User|
+            VNTOAUTHORNAME|Stephane|.
+FEATURES             Location/Qualifiers
+     misc_feature    complement(5..26)
+                     /created_by="User"
+                     /label="5.1 B1 primer"
+     rep_origin      complement(52..666)
+                     /modified_by="User"
+                     /label="pMB1 ori"
+     rep_origin      61
+     mutation        529..530
+                     /label="misc"
+     CDS             complement(784..1578)
+                     /modified_by="User"
+                     /label="KAN resist"
+     misc_feature    889
+     misc_feature    892
+     misc_feature    1015
+     misc_feature    1018
+     misc_feature    complement(1089..1110)
+                     /label="misc"
+                     /note="Geneious type: primer_bind_reverse"
+     misc_feature    1097
+                     /label="misc"
+                     /note="Geneious type: Editing History Replacement"
+     primer_bind     1108..1129
+     misc_feature    1321
+     misc_feature    1324
+     promoter        complement(1579..1716)
+     primer          1712..1732
+                     /label="misc"
+     primer          1746..1765
+                     /label="misc"
+     promoter        1784..1812
+     primer          1818..1839
+                     /label="misc"
+     modified_base   1821
+     primer_bind     1830..1853
+     exon            1854..2672
+                     /modified_by="User"
+                     /label="NDM1"
+     unsure          1854..1970
+                     /modified_by="User"
+                     /label="Group1"
+     misc_feature    complement(1930..1950)
+                     /label="misc"
+                     /note="Geneious type: primer_bind_reverse"
+     misc_feature    1948..1965
+                     /label="misc"
+                     /note="Geneious type: primer_bind_reverse"
+     primer_bind     1954..1970
+     regulatory      1971..2087
+                     /modified_by="User"
+                     /label="Group2"
+     misc_feature    complement(1975..1989)
+                     /label="misc"
+                     /note="Geneious type: primer_bind_reverse"
+     primer_bind     2071..2087
+     unsure          2088..2204
+                     /modified_by="User"
+                     /label="Group3"
+     misc_feature    complement(2090..2108)
+                     /label="misc"
+                     /note="Geneious type: primer_bind_reverse"
+     misc_feature    complement(2090..2105)
+                     /label="misc"
+                     /note="Geneious type: primer_bind_reverse"
+     primer_bind     2106..2126
+     misc_feature    complement(2150..2176)
+                     /label="misc"
+                     /note="Geneious type: primer_bind_reverse"
+     primer_bind     2174..2194
+     primer_bind     2186..2198
+     regulatory      2205..2321
+                     /modified_by="User"
+                     /label="Group4"
+     misc_feature    complement(2205..2218)
+                     /label="misc"
+                     /note="Geneious type: primer_bind_reverse"
+     misc_feature    2211..2213
+                     /created_by="User"
+                     /label="His120"
+     misc_feature    2217..2219
+                     /created_by="User"
+                     /modified_by="User"
+                     /label="His122"
+     misc_feature    2223..2225
+                     /created_by="User"
+                     /label="Asp124"
+     primer_bind     2303..2320
+     unsure          2322..2438
+                     /modified_by="User"
+                     /label="Group5"
+     misc_feature    complement(2324..2340)
+                     /label="misc"
+                     /note="Geneious type: primer_bind_reverse"
+     misc_feature    2418..2420
+                     /created_by="User"
+                     /label="His189"
+     primer_bind     2419..2438
+     regulatory      2439..2555
+                     /modified_by="User"
+                     /label="Group6"
+     misc_feature    complement(2439..2454)
+                     /label="misc"
+                     /note="Geneious type: primer_bind_reverse"
+     misc_feature    2475..2477
+                     /created_by="User"
+                     /label="Cys208"
+     primer_bind     2538..2551
+     unsure          2556..2663
+                     /modified_by="User"
+                     /label="Group7"
+     misc_feature    complement(2558..2572)
+                     /label="misc"
+                     /note="Geneious type: primer_bind_reverse"
+     misc_feature    2601..2603
+                     /created_by="User"
+                     /label="His250"
+     misc_feature    complement(2673..2704)
+                     /label="misc"
+                     /note="Geneious type: primer_bind_reverse"
+     misc_feature    2673..2675
+     primer          2688..2707
+                     /label="misc"
+     modified_base   2696
+     primer_bind     2708..2741
+ORIGIN      
+        1 ttaaggagca aaaggccagc aaaaggccag gaaccgtaaa aaggccgcgt tgctggcgtt
+       61 tttccatagg ctccgccccc ctgacgagca tcacaaaaat cgacgctcaa gtcagaggtg
+      121 gcgaaacccg acaggactat aaagatacca ggcgtttccc cctggaagct ccctcgtgcg
+      181 ctctcctgtt ccgaccctgc cgcttaccgg atacctgtcc gcctttctcc cttcgggaag
+      241 cgtggcgctt tctcatagct cacgctgtag gtatctcagt tcggtgtagg tcgttcgctc
+      301 caagctgggc tgtgtgcacg aaccccccgt tcagcccgac cgctgcgcct tatccggtaa
+      361 ctatcgtctt gannccaacc cggtaagaca cgacttatcg ccactggcag cagccactgg
+      421 taacaggatt agcagagcga ggtatgtagg cggtgctaca gagttcttga agtggtggcc
+      481 taactacggc tacactagaa ggacagtatt tggtatctgc gctctgctnn agccagttac
+      541 cttcggaaaa agagttggta gctcttgatc cggcaaacaa accaccgctg gtagcggtgg
+      601 tttttttgtt tgcaagcagc agattacgcg cagaaaaaaa ggatctcaag aagatccttt
+      661 gatcttttct acggggtctg acgctcagtg gaacgaaaac tcacgttaag ggattttggt
+      721 catgagacta gttcggccta ttggttaaaa aatgagctga tttaacaaaa attttaacaa
+      781 aattcagaag aactcgtcaa gaaggcgata gaaggcgatg cgctgcgaat cgggagcggc
+      841 gataccgtaa agcacgagga agcggtcagc ccattcgccg ccaagctcct cggcaatatc
+      901 acgggtagcc aacgctatgt cctgatagcg gtccgccaca cccagccggc cacagtcgat
+      961 gaatccagaa aagcggccat tttccaccat gatattcggc aagcaggcat cgccgtgtgt
+     1021 cacgacgaga tcctcgccgt cgggcatgct cgccttgagc ctggcgaaca gttcggctgg
+     1081 cgcgagcccc tgatgcactt cgtccagatc atcctgatcg acaagaccgg cttccatccg
+     1141 agtacgtgct cgctcgatgc gatgtttcgc ttggtggtcg aatgggcagg tagccggatc
+     1201 aagcgtatgc agccgccgca ttgcatcagc catgatggat actttctcgg caggagcaag
+     1261 gtgagatgac aggagatcct gccccggcac ttcgcccaat agcagccagt cccttcccgc
+     1321 ctcggtgaca acgtcgagca cagctgcgca aggaacgccc gtcgtggcca gccacgatag
+     1381 ccgcgctgcc tcgtcttgca gttcattcag ggcaccggac aggtcggtct tgacaaaaag
+     1441 aaccgggcgc ccctgcgctg acagccggaa cacggcggca tcagagcagc cgattgtctg
+     1501 ttgtgcccag tcatagccga atagcctctc cacccaagcg gccggagaac ctgcgtgcaa
+     1561 tccatcttgt tcaatcatgc gaaacgatcc tcatcctgtc tcttgatcag agcttgatcc
+     1621 cctgcgccat cagatccttg gcggcgagaa agccatccag tttactttgc agggcttccc
+     1681 aaccttacca gagggcgccc cagctggcaa ttccggtgac gtcaggtggc acttttcggg
+     1741 gaaatgtgcg cggaacccct atttgtttat ttttctaaat acattcaaat atgtatccgc
+     1801 tcatgagaca ataaccctga taaatgcttc aataatattg aaaaaggaag cccatggaat
+     1861 tgcccaatat tatgcacccg gtcgcgaagc tgagcaccgc attagccgct gcattgatgc
+     1921 tgagcgggtg catgcccggt gaaatccgcc cgacgattgg ccagcaaatg gaaactggcg
+     1981 accaacggtt tggcgatctg gttttccgcc agctcgcacc gaatgtctgg cagcacactt
+     2041 cctatctcga catgccgggt ttcggggcag tcgcttccaa cggtttgatc gtcagagatg
+     2101 gcggtcgcgt gctggtggtc gataccgcct ggaccgatga ccagaccgcc cagatcctca
+     2161 actggatcaa gcaggagatc aacctgccgg tcgcgctggc ggtggtgacc cacgcgcatc
+     2221 aggacaagat gggcggtatg gacgcgctgc atgcggcggg gattgcgact tatgccaatg
+     2281 cgttgtcgaa ccagcttgcc ccgcaagagg gaatggttgc ggcgcaacac agcctgactt
+     2341 tcgccgccaa tggctgggtc gaaccagcaa ccgcgcccaa ctttggcccg ctcaaggtat
+     2401 tttaccccgg ccccggccac accagtgaca atatcaccgt tgggatcgac ggcaccgaca
+     2461 tcgcttttgg tggctgcctg atcaaggaca gcaaggccaa gtcgctcggc aatctcggtg
+     2521 atgccgacac tgagcactac gccgcgtcag cgcgcgcgtt tggtgcggcg ttccccaagg
+     2581 ccagcatgat cgtgatgagc cattccgccc ccgatagccg cgccgcaatc actcatacgg
+     2641 cccgcatggc cgacaagctg cgctgaaagc ttgtcaccaa gtttactcat atatacttta
+     2701 gattgattta aaacttcatt tttaatttaa aaggatctag gtgaagatcc tttttc
+//
