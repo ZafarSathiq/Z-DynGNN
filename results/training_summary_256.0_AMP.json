@@ -1,0 +1,48 @@
+{
+  "condition": "256.0_AMP",
+  "elapsed_time_sec": 31.296100854873657,
+  "best_epoch": 6,
+  "noise_ceiling": {
+    "r2_max": 0.9729482693981465,
+    "r_max": 0.9863814015877157,
+    "snr": 35.96621168966851
+  },
+  "metrics_test": {
+    "site_mean_baseline": {
+      "rmse": 3.144530863790264,
+      "mae": 2.6964130232870755,
+      "r2_raw": -0.03508344054414225,
+      "r2_normalized": -0.036058896086884895,
+      "pearson_raw": NaN,
+      "pearson_normalized": NaN,
+      "spearman": NaN
+    },
+    "ridge_baseline": {
+      "rmse": 2.5003692955644947,
+      "mae": 2.0165771604393794,
+      "r2_raw": 0.34555681197895405,
+      "r2_normalized": 0.3551646298653793,
+      "pearson_raw": 0.5938492075396168,
+      "pearson_normalized": 0.6020482610314177,
+      "spearman": 0.6070551442743846
+    },
+    "zdyn_gnn": {
+      "rmse": 2.556025266647339,
+      "mae": 1.9464532136917114,
+      "r2_raw": 0.31609785556793213,
+      "r2_normalized": 0.3248866003569401,
+      "pearson_raw": 0.6338692903518677,
+      "pearson_normalized": 0.642620861530304,
+      "spearman": 0.6364653646145397,
+      "test_nll": 1.444016695022583,
+      "mean_pred_sigma": 2.178196668624878,
+      "std_pred_sigma": 0.7128003835678101
+    }
+  },
+  "checkpoint_path": "checkpoints/zdyn_gnn_256.0_AMP.pt",
+  "files_generated": [
+    "model_comparison_256.0_AMP.csv",
+    "test_predictions_256.0_AMP.csv",
+    "calib_predictions_256.0_AMP.csv"
+  ]
+}

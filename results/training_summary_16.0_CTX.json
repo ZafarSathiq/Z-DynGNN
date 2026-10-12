@@ -1,0 +1,48 @@
+{
+  "condition": "16.0_CTX",
+  "elapsed_time_sec": 24.642203092575073,
+  "best_epoch": 3,
+  "noise_ceiling": {
+    "r2_max": 0.9684133170355751,
+    "r_max": 0.9840799342713858,
+    "snr": 30.658911482610158
+  },
+  "metrics_test": {
+    "site_mean_baseline": {
+      "rmse": 2.630087135796476,
+      "mae": 2.3206361668837747,
+      "r2_raw": -0.019975711224036186,
+      "r2_normalized": -0.020627257879088385,
+      "pearson_raw": NaN,
+      "pearson_normalized": NaN,
+      "spearman": NaN
+    },
+    "ridge_baseline": {
+      "rmse": 2.0809141896961325,
+      "mae": 1.652003818733448,
+      "r2_raw": 0.36150441418031043,
+      "r2_normalized": 0.37329558342600777,
+      "pearson_raw": 0.603739589337896,
+      "pearson_normalized": 0.6135066556203136,
+      "spearman": 0.6277353530914773
+    },
+    "zdyn_gnn": {
+      "rmse": 2.1816751956939697,
+      "mae": 1.6906317472457886,
+      "r2_raw": 0.2981734871864319,
+      "r2_normalized": 0.30789899513069,
+      "pearson_raw": 0.588310718536377,
+      "pearson_normalized": 0.5978281497955322,
+      "spearman": 0.6028545218478804,
+      "test_nll": 1.2416560649871826,
+      "mean_pred_sigma": 2.0012295246124268,
+      "std_pred_sigma": 0.3681621253490448
+    }
+  },
+  "checkpoint_path": "checkpoints/zdyn_gnn_16.0_CTX.pt",
+  "files_generated": [
+    "model_comparison_16.0_CTX.csv",
+    "test_predictions_16.0_CTX.csv",
+    "calib_predictions_16.0_CTX.csv"
+  ]
+}
