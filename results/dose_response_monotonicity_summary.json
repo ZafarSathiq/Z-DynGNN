@@ -1,0 +1,197 @@
+{
+  "Ampicillin": {
+    "canonical_mid_condition": "256.0_AMP",
+    "conditions": [
+      "32.0_AMP",
+      "256.0_AMP",
+      "512.0_AMP"
+    ],
+    "test_biological_monotonicity_strict": 0.4738562091503268,
+    "test_biological_monotonicity_with_noise_tol": 0.6143790849673203,
+    "step1_low_to_mid_monotonicity": 0.9852941176470589,
+    "step2_mid_to_high_monotonicity": 0.6225490196078431,
+    "conditions_evaluation": {
+      "32.0_AMP": {
+        "concentration_ug_ml": 32.0,
+        "pearson_r": 0.5686718152097782,
+        "spearman_rho": 0.5456535711258683,
+        "rmse": 2.642426600711545,
+        "quantile_two_sided": 2.6541968760546997,
+        "empirical_coverage_two_sided": 1.0,
+        "mean_interval_width_two_sided": 11.562726020812988,
+        "quantile_one_sided_upper": 2.6541968760546997,
+        "empirical_coverage_one_sided_upper": 1.0,
+        "mean_margin_one_sided_upper": 5.781363010406494,
+        "clinical_containment_all_22_two_sided": 1.0,
+        "clinical_containment_all_22_one_sided": 1.0,
+        "pure_test_containment_n9_two_sided": 1.0,
+        "pure_test_containment_n9_one_sided": 1.0,
+        "false_safety_count": 0
+      },
+      "256.0_AMP": {
+        "concentration_ug_ml": 256.0,
+        "pearson_r": 0.6338693196233708,
+        "spearman_rho": 0.6364653646145397,
+        "rmse": 2.5560253994172717,
+        "quantile_two_sided": 3.5497574742086417,
+        "empirical_coverage_two_sided": 0.9918300653594772,
+        "mean_interval_width_two_sided": 15.464141845703125,
+        "quantile_one_sided_upper": 2.160550207000048,
+        "empirical_coverage_one_sided_upper": 0.9967320261437909,
+        "mean_margin_one_sided_upper": 4.7061028480529785,
+        "clinical_containment_all_22_two_sided": 1.0,
+        "clinical_containment_all_22_one_sided": 0.9090909090909091,
+        "pure_test_containment_n9_two_sided": 1.0,
+        "pure_test_containment_n9_one_sided": 1.0,
+        "false_safety_count": 0
+      },
+      "512.0_AMP": {
+        "concentration_ug_ml": 512.0,
+        "pearson_r": 0.598575239444067,
+        "spearman_rho": 0.588109127290445,
+        "rmse": 2.7041854405739056,
+        "quantile_two_sided": 3.8492468772667188,
+        "empirical_coverage_two_sided": 0.988562091503268,
+        "mean_interval_width_two_sided": 16.76883316040039,
+        "quantile_one_sided_upper": 2.6231915715431824,
+        "empirical_coverage_one_sided_upper": 0.9754901960784313,
+        "mean_margin_one_sided_upper": 5.713827133178711,
+        "clinical_containment_all_22_two_sided": 1.0,
+        "clinical_containment_all_22_one_sided": 0.9090909090909091,
+        "pure_test_containment_n9_two_sided": 1.0,
+        "pure_test_containment_n9_one_sided": 1.0,
+        "false_safety_count": 0
+      }
+    }
+  },
+  "Cefotaxime": {
+    "canonical_mid_condition": "16.0_CTX",
+    "conditions": [
+      "2.0_CTX",
+      "16.0_CTX",
+      "32.0_CTX"
+    ],
+    "test_biological_monotonicity_strict": 0.7467320261437909,
+    "test_biological_monotonicity_with_noise_tol": 0.9183006535947712,
+    "step1_low_to_mid_monotonicity": 0.9934640522875817,
+    "step2_mid_to_high_monotonicity": 0.923202614379085,
+    "conditions_evaluation": {
+      "2.0_CTX": {
+        "concentration_ug_ml": 2.0,
+        "pearson_r": 0.5145412549984489,
+        "spearman_rho": 0.47731439302265,
+        "rmse": 2.0947305552490247,
+        "quantile_two_sided": 1.9142154634568775,
+        "empirical_coverage_two_sided": 0.9836601307189542,
+        "mean_interval_width_two_sided": 7.661568641662598,
+        "quantile_one_sided_upper": 1.9142154634568775,
+        "empirical_coverage_one_sided_upper": 1.0,
+        "mean_margin_one_sided_upper": 3.830784320831299,
+        "clinical_containment_all_22_two_sided": 1.0,
+        "clinical_containment_all_22_one_sided": 1.0,
+        "pure_test_containment_n9_two_sided": 1.0,
+        "pure_test_containment_n9_one_sided": 1.0,
+        "false_safety_count": 0
+      },
+      "16.0_CTX": {
+        "concentration_ug_ml": 16.0,
+        "pearson_r": 0.5883106118966965,
+        "spearman_rho": 0.6028545218478804,
+        "rmse": 2.1816752343867174,
+        "quantile_two_sided": 2.1527549523287446,
+        "empirical_coverage_two_sided": 0.9493464052287581,
+        "mean_interval_width_two_sided": 8.616313934326172,
+        "quantile_one_sided_upper": 1.6448317314388345,
+        "empirical_coverage_one_sided_upper": 0.9901960784313726,
+        "mean_margin_one_sided_upper": 3.2916858196258545,
+        "clinical_containment_all_22_two_sided": 1.0,
+        "clinical_containment_all_22_one_sided": 0.9545454545454546,
+        "pure_test_containment_n9_two_sided": 1.0,
+        "pure_test_containment_n9_one_sided": 1.0,
+        "false_safety_count": 0
+      },
+      "32.0_CTX": {
+        "concentration_ug_ml": 32.0,
+        "pearson_r": 0.5409617894132792,
+        "spearman_rho": 0.561730156588738,
+        "rmse": 3.083011633664989,
+        "quantile_two_sided": 3.6211010438734488,
+        "empirical_coverage_two_sided": 0.9787581699346405,
+        "mean_interval_width_two_sided": 14.493309020996094,
+        "quantile_one_sided_upper": 1.7257565859406203,
+        "empirical_coverage_one_sided_upper": 0.9950980392156863,
+        "mean_margin_one_sided_upper": 3.453634738922119,
+        "clinical_containment_all_22_two_sided": 1.0,
+        "clinical_containment_all_22_one_sided": 1.0,
+        "pure_test_containment_n9_two_sided": 1.0,
+        "pure_test_containment_n9_one_sided": 1.0,
+        "false_safety_count": 0
+      }
+    }
+  },
+  "Meropenem": {
+    "canonical_mid_condition": "0.25_MEM",
+    "conditions": [
+      "0.0625_MEM",
+      "0.25_MEM",
+      "0.5_MEM"
+    ],
+    "test_biological_monotonicity_strict": 0.6323529411764706,
+    "test_biological_monotonicity_with_noise_tol": 0.8823529411764706,
+    "step1_low_to_mid_monotonicity": 0.9934640522875817,
+    "step2_mid_to_high_monotonicity": 0.8856209150326797,
+    "conditions_evaluation": {
+      "0.0625_MEM": {
+        "concentration_ug_ml": 0.0625,
+        "pearson_r": 0.5356770550251732,
+        "spearman_rho": 0.584149949431184,
+        "rmse": 1.7956019734028685,
+        "quantile_two_sided": 1.687198406478979,
+        "empirical_coverage_two_sided": 0.9803921568627451,
+        "mean_interval_width_two_sided": 6.8294477462768555,
+        "quantile_one_sided_upper": 1.687198406478979,
+        "empirical_coverage_one_sided_upper": 1.0,
+        "mean_margin_one_sided_upper": 3.4147238731384277,
+        "clinical_containment_all_22_two_sided": 0.9545454545454546,
+        "clinical_containment_all_22_one_sided": 0.9545454545454546,
+        "pure_test_containment_n9_two_sided": 1.0,
+        "pure_test_containment_n9_one_sided": 1.0,
+        "false_safety_count": 0
+      },
+      "0.25_MEM": {
+        "concentration_ug_ml": 0.25,
+        "pearson_r": 0.596720835420019,
+        "spearman_rho": 0.606664131812819,
+        "rmse": 2.2972301459970796,
+        "quantile_two_sided": 2.210039052238512,
+        "empirical_coverage_two_sided": 0.9509803921568627,
+        "mean_interval_width_two_sided": 8.945805549621582,
+        "quantile_one_sided_upper": 1.832530915570243,
+        "empirical_coverage_one_sided_upper": 1.0,
+        "mean_margin_one_sided_upper": 3.708862781524658,
+        "clinical_containment_all_22_two_sided": 0.9545454545454546,
+        "clinical_containment_all_22_one_sided": 0.9545454545454546,
+        "pure_test_containment_n9_two_sided": 1.0,
+        "pure_test_containment_n9_one_sided": 1.0,
+        "false_safety_count": 0
+      },
+      "0.5_MEM": {
+        "concentration_ug_ml": 0.5,
+        "pearson_r": 0.5970073512950578,
+        "spearman_rho": 0.5979606100883311,
+        "rmse": 2.825850524172366,
+        "quantile_two_sided": 2.859875299313156,
+        "empirical_coverage_two_sided": 0.9493464052287581,
+        "mean_interval_width_two_sided": 11.576213836669922,
+        "quantile_one_sided_upper": 1.9803200368662122,
+        "empirical_coverage_one_sided_upper": 0.9983660130718954,
+        "mean_margin_one_sided_upper": 4.007974147796631,
+        "clinical_containment_all_22_two_sided": 1.0,
+        "clinical_containment_all_22_one_sided": 0.9545454545454546,
+        "pure_test_containment_n9_two_sided": 1.0,
+        "pure_test_containment_n9_one_sided": 1.0,
+        "false_safety_count": 0
+      }
+    }
+  }
+}

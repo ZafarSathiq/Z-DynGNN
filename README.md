@@ -174,7 +174,7 @@ python scripts/evaluate_clinical.py
 - [x] **Step 5: Z-DynGNN Modeling** (Z-score Calibrated Dynamics-Aware Graph Neural Network with dual mean/variance heads, Gaussian NLL loss, site-mean & Ridge baselines).
 - [x] **Step 6: Topology-Conditioned Conformal Calibration** (Structural binning, studentized non-conformity scores, finite-sample quantiles).
 - [x] **Step 7: Evaluation, Noise Ceilings & Clinical Validation** (Empirical test coverage $\ge 1 - \alpha$, sharpness evaluation, BLDB variants & M154L validation).
-- [ ] **Step 8: Multi-Concentration Pharmacodynamic Expansion & Monotonicity** (Evaluating all 9 DMS concentration conditions across AMP, CTX, and MEM).
+- [x] **Step 8: Multi-Concentration Pharmacodynamic Expansion & Monotonicity** (Evaluated all 9 DMS concentration conditions across AMP, CTX, and MEM; 100% test containment on n=9, 0 false safety errors out of 2,524 resistant instances).
 - [ ] **Step 9: Wet-Lab Quantitative EC50 & Combinatorial Epistasis Benchmark** (Validating physical microdilution assays and double/triple mutants from SD5).
 - [ ] **Step 10: Complete BLDB NDM-1 to NDM-77 Expansion with 3-Way Partition Isolation** (Full clinical catalog under strict zero-leakage safeguards).
 - [ ] **Step 11: Multi-Conformational Structural Shift Audit** (Comparative ANM/PRS across PDB 4HL2, 4RL0, 5ZGY, and 5YD7 in parallel caches).
