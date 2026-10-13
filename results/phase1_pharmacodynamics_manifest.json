@@ -1,0 +1,164 @@
+{
+  "phase": "PHASE I: DATA FOUNDATION & 9-DOSE PHARMACODYNAMICS",
+  "reference_structure": {
+    "pdb_id": "3SPU",
+    "chain_id": "A",
+    "num_residues": 228,
+    "residue_range": [
+      43,
+      270
+    ],
+    "degree_mean": 10.263157894736842,
+    "degree_min": 4,
+    "degree_max": 18,
+    "cutoff_angstroms": 8.0
+  },
+  "dms_landscape": {
+    "num_missense_variants": 4271,
+    "num_conditions": 9,
+    "total_measurements": 38439
+  },
+  "noise_ceilings": {
+    "32.0_AMP": {
+      "drug": "Ampicillin",
+      "concentration_ug_ml": 32.0,
+      "total_variance": 4.909443574164278,
+      "replicate_error_variance": 0.5843177705983039,
+      "explainable_signal_variance": 4.3251258035659745,
+      "r2_max": 0.8809808562271192,
+      "r_max": 0.9386058044925565,
+      "snr": 7.402009696089378,
+      "num_valid_measurements": 4248
+    },
+    "256.0_AMP": {
+      "drug": "Ampicillin",
+      "concentration_ug_ml": 256.0,
+      "total_variance": 9.752943763132873,
+      "replicate_error_variance": 0.2638340072552977,
+      "explainable_signal_variance": 9.489109755877575,
+      "r2_max": 0.9729482693981465,
+      "r_max": 0.9863814015877157,
+      "snr": 35.96621168966851,
+      "num_valid_measurements": 4248
+    },
+    "512.0_AMP": {
+      "drug": "Ampicillin",
+      "concentration_ug_ml": 512.0,
+      "total_variance": 10.385143008474193,
+      "replicate_error_variance": 1.6425317727964792,
+      "explainable_signal_variance": 8.742611235677714,
+      "r2_max": 0.8418383096452128,
+      "r_max": 0.9175174710299596,
+      "snr": 5.32264360450882,
+      "num_valid_measurements": 4248
+    },
+    "2.0_CTX": {
+      "drug": "Cefotaxime",
+      "concentration_ug_ml": 2.0,
+      "total_variance": 4.177735271181588,
+      "replicate_error_variance": 0.14485104192524043,
+      "explainable_signal_variance": 4.032884229256347,
+      "r2_max": 0.9653278552797645,
+      "r_max": 0.9825109949917937,
+      "snr": 27.84159627472872,
+      "num_valid_measurements": 4248
+    },
+    "16.0_CTX": {
+      "drug": "Cefotaxime",
+      "concentration_ug_ml": 16.0,
+      "total_variance": 6.889704108637973,
+      "replicate_error_variance": 0.21762289939824372,
+      "explainable_signal_variance": 6.67208120923973,
+      "r2_max": 0.9684133170355751,
+      "r_max": 0.9840799342713858,
+      "snr": 30.658911482610158,
+      "num_valid_measurements": 4248
+    },
+    "32.0_CTX": {
+      "drug": "Cefotaxime",
+      "concentration_ug_ml": 32.0,
+      "total_variance": 9.384573271321557,
+      "replicate_error_variance": 0.5235925728383144,
+      "explainable_signal_variance": 8.860980698483242,
+      "r2_max": 0.9442070984262686,
+      "r_max": 0.9717031946156546,
+      "snr": 16.923427027333936,
+      "num_valid_measurements": 4248
+    },
+    "0.0625_MEM": {
+      "drug": "Meropenem",
+      "concentration_ug_ml": 0.0625,
+      "total_variance": 3.872498800991854,
+      "replicate_error_variance": 0.21075180956782943,
+      "explainable_signal_variance": 3.6617469914240246,
+      "r2_max": 0.9455773079868095,
+      "r_max": 0.9724079946127601,
+      "snr": 17.374688259772732,
+      "num_valid_measurements": 4248
+    },
+    "0.25_MEM": {
+      "drug": "Meropenem",
+      "concentration_ug_ml": 0.25,
+      "total_variance": 6.619131821976495,
+      "replicate_error_variance": 0.44387094622518314,
+      "explainable_signal_variance": 6.175260875751312,
+      "r2_max": 0.9329412137175656,
+      "r_max": 0.965888820578003,
+      "snr": 13.912288984597112,
+      "num_valid_measurements": 4248
+    },
+    "0.5_MEM": {
+      "drug": "Meropenem",
+      "concentration_ug_ml": 0.5,
+      "total_variance": 8.493110698830037,
+      "replicate_error_variance": 1.2072941785417384,
+      "explainable_signal_variance": 7.285816520288298,
+      "r2_max": 0.8578501774728959,
+      "r_max": 0.9262020176359453,
+      "snr": 6.034831153653586,
+      "num_valid_measurements": 4248
+    }
+  },
+  "dose_response_monotonicity": {
+    "Ampicillin": {
+      "conditions": [
+        "32.0_AMP",
+        "256.0_AMP",
+        "512.0_AMP"
+      ],
+      "total_mutations_evaluated": 4271,
+      "strict_monotonicity_rate": 0.3858581128541325,
+      "noise_tolerant_monotonicity_rate": 0.5436665886209319,
+      "low_to_mid_dose_compliance": 0.9803324748302505,
+      "mid_to_high_dose_compliance": 0.5516272535705924
+    },
+    "Cefotaxime": {
+      "conditions": [
+        "2.0_CTX",
+        "16.0_CTX",
+        "32.0_CTX"
+      ],
+      "total_mutations_evaluated": 4271,
+      "strict_monotonicity_rate": 0.7213767267618825,
+      "noise_tolerant_monotonicity_rate": 0.9323343479278857,
+      "low_to_mid_dose_compliance": 0.9927417466635449,
+      "mid_to_high_dose_compliance": 0.9381877780379302
+    },
+    "Meropenem": {
+      "conditions": [
+        "0.0625_MEM",
+        "0.25_MEM",
+        "0.5_MEM"
+      ],
+      "total_mutations_evaluated": 4271,
+      "strict_monotonicity_rate": 0.5865136970264575,
+      "noise_tolerant_monotonicity_rate": 0.8625614610161555,
+      "low_to_mid_dose_compliance": 0.9826738468742683,
+      "mid_to_high_dose_compliance": 0.876843830484664
+    }
+  },
+  "files_generated": [
+    "phase1_dms_9cond_curated.csv",
+    "phase1_pharmacodynamics_manifest.json"
+  ]
+}
