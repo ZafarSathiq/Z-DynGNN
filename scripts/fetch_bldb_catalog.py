@@ -1,22 +1,27 @@
 #!/usr/bin/env python3
-"""Fetch and catalog all NDM clinical variants (NDM-1 through NDM-69) from BLDB."""
+"""Fetch and catalog all NDM clinical variants (NDM-1 through NDM-77) from BLDB."""
 import json
+import time
 import urllib.request
 from pathlib import Path
 import pandas as pd
 
-OUTPUT_PATH = Path("data/processed/bldb_ndm_variants_catalog.json")
+OUTPUT_PATH = Path("data/processed/bldb_full_ndm_catalog.json")
 
 
-def fetch_seq(v: int):
+def fetch_seq(v: int, max_retries: int = 3):
     url = f"http://www.bldb.eu/seq_prot/B1-NDM-{v}-prot.fasta"
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=3.0) as r:
-            lines = r.read().decode("utf-8").splitlines()
-            return "".join([l.strip() for l in lines if not l.startswith(">")])
-    except Exception:
-        return None
+    for attempt in range(max_retries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=5.0) as r:
+                lines = r.read().decode("utf-8").splitlines()
+                seq = "".join([l.strip() for l in lines if not l.startswith(">")])
+                if len(seq) == 270:
+                    return seq
+        except Exception:
+            time.sleep(0.3)
+    return None
 
 
 def main():
@@ -30,10 +35,12 @@ def main():
     all_variants = {}
     mutations_map = {}
 
-    print("[*] Fetching NDM-2 through NDM-69 from BLDB...")
-    for v in range(2, 70):
+    print("[*] Fetching NDM-2 through NDM-77 from BLDB...")
+    successful_fetches = 0
+    for v in range(2, 78):
         s = fetch_seq(v)
         if s and len(s) == len(wt_seq):
+            successful_fetches += 1
             diffs = []
             for i in range(len(s)):
                 if s[i] != wt_seq[i]:
@@ -55,7 +62,8 @@ def main():
 
             all_variants[f"NDM-{v}"] = diffs
 
-    print(f"[+] Successfully cataloged {len(all_variants)} NDM variants from BLDB.")
+    print(f"[+] Successfully fetched {successful_fetches} NDM variant sequences from BLDB.")
+    print(f"[+] Cataloged {len(all_variants)} NDM strains.")
     print(f"[+] Found {len(mutations_map)} unique single substitutions in mature region (43-270).")
 
     catalog = {
@@ -69,7 +77,7 @@ def main():
     with open(OUTPUT_PATH, "w") as f:
         json.dump(catalog, f, indent=2)
 
-    print(f"[+] Cached BLDB catalog to {OUTPUT_PATH}")
+    print(f"[+] Cached full BLDB catalog to {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":

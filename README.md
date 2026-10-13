@@ -176,6 +176,6 @@ python scripts/evaluate_clinical.py
 - [x] **Step 7: Evaluation, Noise Ceilings & Clinical Validation** (Empirical test coverage $\ge 1 - \alpha$, sharpness evaluation, BLDB variants & M154L validation).
 - [x] **Step 8: Multi-Concentration Pharmacodynamic Expansion & Monotonicity** (Evaluated all 9 DMS concentration conditions across AMP, CTX, and MEM; 100% test containment on n=9, 0 false safety errors out of 2,524 resistant instances).
 - [x] **Step 9: Wet-Lab Quantitative EC50 & Combinatorial Epistasis Benchmark** (Validated physical microdilution assays and double/triple mutants from SD5; 100% containment on 21/21 instances, epistasis buffering analyzed).
-- [ ] **Step 10: Complete BLDB NDM-1 to NDM-77 Expansion with 3-Way Partition Isolation** (Full clinical catalog under strict zero-leakage safeguards).
+- [x] **Step 10: Complete BLDB NDM-1 to NDM-77 Expansion with 3-Way Partition Isolation** (Evaluated all 48 hospital mutations across NDM-1 to NDM-77; 100% containment on pure TEST (n=7), 0 false safety errors out of 122 resistant hospital strain evaluations).
 - [ ] **Step 11: Multi-Conformational Structural Shift Audit** (Comparative ANM/PRS across PDB 4HL2, 4RL0, 5ZGY, and 5YD7 in parallel caches).
 - [ ] **Step 12: Decoupled Dual One-Sided Hypothesis Testing** (Decoupling Upper Safety Screening and Lower Resistance Certification).
