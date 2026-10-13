@@ -49,7 +49,7 @@ Z-DynGNN enforces distribution-free **Topology-Conditioned Conformal Risk Contro
    where $\mathcal{S}(i)$ discretizes residues by contact coordination number $d_i$ and the Asymmetric Dynamic Coupling Index ($\text{DCI}_{\text{asym}}$).
 4. **Strict Position-Disjoint Partitioning (70% Train / 15% Calib / 15% Test)**: Held-out test positions are never exposed during model training or conformal calibration, eliminating spatial data leakage.
 
-*For full mathematical derivations and technical refutations of the Kim–Vu sandwich theorem on deterministic graphs, see `01. Correction v1 - NDM-1 Strategy.md` and `02. Comprehensive Guide - Original Strategy vs Correction v1 Explained.md`.*
+*For full mathematical derivations, technical refutations of the Kim–Vu sandwich theorem on deterministic graphs, and complete architecture specifications, see `01. Correction v1 - NDM-1 Strategy.md`, `02. Comprehensive Guide - Original Strategy vs Correction v1 Explained.md`, and `17. System Architecture, Nix Deployment & Complete Scientific Synthesis.md`.*
 
 ---
 
@@ -60,12 +60,17 @@ Z-DynGNN enforces distribution-free **Topology-Conditioned Conformal Risk Contro
 The project includes declarative Nix manifests ensuring identical C runtime libraries, compiler toolchains, and package versions:
 
 ```bash
-# Enter the Nix dev environment
-nix develop --extra-experimental-features "nix-command flakes"
+# 1. Enter the Nix dev environment
+nix develop
+
+# 2. Inside the Nix shell, initialize the virtual environment with uv
+uv venv --python python3.11 .venv
+source .venv/bin/activate
+uv pip install torch --index-url https://download.pytorch.org/whl/cpu
+uv pip install -e ".[dev]"
 ```
 
 Inside the shell, Python 3.11, `uv`, Git, curl, and GNU C dynamic libraries are automatically configured.
-
 ### Option B: Local Python Virtual Environment
 
 If running outside the Nix dev shell:
@@ -169,3 +174,8 @@ python scripts/evaluate_clinical.py
 - [x] **Step 5: Z-DynGNN Modeling** (Z-score Calibrated Dynamics-Aware Graph Neural Network with dual mean/variance heads, Gaussian NLL loss, site-mean & Ridge baselines).
 - [x] **Step 6: Topology-Conditioned Conformal Calibration** (Structural binning, studentized non-conformity scores, finite-sample quantiles).
 - [x] **Step 7: Evaluation, Noise Ceilings & Clinical Validation** (Empirical test coverage $\ge 1 - \alpha$, sharpness evaluation, BLDB variants & M154L validation).
+- [ ] **Step 8: Multi-Concentration Pharmacodynamic Expansion & Monotonicity** (Evaluating all 9 DMS concentration conditions across AMP, CTX, and MEM).
+- [ ] **Step 9: Wet-Lab Quantitative EC50 & Combinatorial Epistasis Benchmark** (Validating physical microdilution assays and double/triple mutants from SD5).
+- [ ] **Step 10: Complete BLDB NDM-1 to NDM-77 Expansion with 3-Way Partition Isolation** (Full clinical catalog under strict zero-leakage safeguards).
+- [ ] **Step 11: Multi-Conformational Structural Shift Audit** (Comparative ANM/PRS across PDB 4HL2, 4RL0, 5ZGY, and 5YD7 in parallel caches).
+- [ ] **Step 12: Decoupled Dual One-Sided Hypothesis Testing** (Decoupling Upper Safety Screening and Lower Resistance Certification).
