@@ -1,0 +1,164 @@
+{
+  "phase": "PHASE II: MULTI-CONFORMATIONAL STRUCTURAL DYNAMICS ENGINE",
+  "canonical_reference": {
+    "pdb_id": "3SPU",
+    "name": "Native Apo Reference State",
+    "resolution": 1.3,
+    "chain_id": "A",
+    "num_residues": 228,
+    "gnm_fiedler": 0.2831525317565103,
+    "msf_bfactor_pearson_r": 0.7077151310396496,
+    "m154_driver_coupling_to_zinc_pocket": {
+      "His120": 0.43161102983379684,
+      "His122": 0.15651824382321822,
+      "Asp124": 0.31890775876087063,
+      "His189": 0.20248202068972565,
+      "Cys208": 0.2636680206779593,
+      "His250": 0.11741571395421008
+    },
+    "cache_file": "dynamics_3spu.npz",
+    "locked_status": "Strictly Locked & Frozen"
+  },
+  "comparative_structures": {
+    "4HL2": {
+      "name": "Ampicillin-Bound Holo State",
+      "resolution": 1.05,
+      "chain_id": "A",
+      "num_residues": 228,
+      "mean_degree": 10.37719298245614,
+      "gnm_fiedler": 0.2757068690789461,
+      "cache_file": "dynamics_4hl2.npz"
+    },
+    "4RL0": {
+      "name": "Meropenem-Bound Catalytic Intermediate",
+      "resolution": 1.3,
+      "chain_id": "B",
+      "num_residues": 228,
+      "mean_degree": 10.37719298245614,
+      "gnm_fiedler": 0.29141704902083915,
+      "cache_file": "dynamics_4rl0.npz"
+    },
+    "5ZGY": {
+      "name": "Sub-Angstrom Resolution Structure at pH 7.5",
+      "resolution": 0.95,
+      "chain_id": "A",
+      "num_residues": 228,
+      "mean_degree": 10.385964912280702,
+      "gnm_fiedler": 0.29821208878191124,
+      "cache_file": "dynamics_5zgy.npz"
+    },
+    "5YD7": {
+      "name": "VIM-2 Metallo-Beta-Lactamase Homolog",
+      "resolution": 1.7,
+      "chain_id": "A",
+      "num_residues": 231,
+      "mean_degree": 10.476190476190476,
+      "gnm_fiedler": 0.3320595421144365,
+      "cache_file": "dynamics_5yd7.npz"
+    }
+  },
+  "conformational_shifts": {
+    "4HL2": {
+      "ca_rmsd_vs_3spu_angstroms": 0.6961690154424366,
+      "loop_l3_msf_shift": {
+        "3spu_apo": 0.33093655570992236,
+        "current": 0.34803903878771325,
+        "delta": 0.017102483077790887
+      },
+      "loop_l8_msf_shift": {
+        "3spu_apo": 0.2170616569537485,
+        "current": 0.20007098720440358,
+        "delta": -0.016990669749344905
+      },
+      "m154_driver_coupling_to_zinc_pocket": {
+        "His120": 0.3952977969567524,
+        "His122": 0.13210315657378957,
+        "Asp124": 0.24919843570327194,
+        "His189": 0.1632548218341361,
+        "Cys208": 0.2454254230295771,
+        "His250": 0.10378957852373588
+      },
+      "delta_m154_driver_coupling_vs_3spu": {
+        "His120": -0.036313232877044466,
+        "His122": -0.024415087249428646,
+        "Asp124": -0.0697093230575987,
+        "His189": -0.03922719885558956,
+        "Cys208": -0.01824259764838221,
+        "His250": -0.013626135430474196
+      },
+      "m248_zinc_pocket_coupling": {
+        "3spu_apo": -0.045017445590411015,
+        "current": -0.13662704447037025,
+        "delta": -0.09160959887995923
+      }
+    },
+    "4RL0": {
+      "ca_rmsd_vs_3spu_angstroms": 0.7095586117064386,
+      "loop_l3_msf_shift": {
+        "3spu_apo": 0.33093655570992236,
+        "current": 0.32732607850603257,
+        "delta": -0.0036104772038897948
+      },
+      "loop_l8_msf_shift": {
+        "3spu_apo": 0.2170616569537485,
+        "current": 0.19769942576894295,
+        "delta": -0.01936223118480554
+      },
+      "m154_driver_coupling_to_zinc_pocket": {
+        "His120": 0.44196815472834383,
+        "His122": 0.26989436638980124,
+        "Asp124": 0.45102919291163057,
+        "His189": 0.24367836801656095,
+        "Cys208": 0.2733925185058895,
+        "His250": 0.09506181455231605
+      },
+      "delta_m154_driver_coupling_vs_3spu": {
+        "His120": 0.010357124894546987,
+        "His122": 0.11337612256658303,
+        "Asp124": 0.13212143415075994,
+        "His189": 0.0411963473268353,
+        "Cys208": 0.009724497827930223,
+        "His250": -0.02235389940189403
+      },
+      "m248_zinc_pocket_coupling": {
+        "3spu_apo": -0.045017445590411015,
+        "current": -0.05076329284776778,
+        "delta": -0.005745847257356766
+      }
+    },
+    "5ZGY": {
+      "ca_rmsd_vs_3spu_angstroms": 0.956989533797223,
+      "loop_l3_msf_shift": {
+        "3spu_apo": 0.33093655570992236,
+        "current": 0.3269247102913365,
+        "delta": -0.0040118454185858465
+      },
+      "loop_l8_msf_shift": {
+        "3spu_apo": 0.2170616569537485,
+        "current": 0.20973012793317894,
+        "delta": -0.007331529020569549
+      },
+      "m154_driver_coupling_to_zinc_pocket": {
+        "His120": 0.31742750714629786,
+        "His122": 0.042247398189572793,
+        "Asp124": 0.2435991843823293,
+        "His189": 0.11455411066265575,
+        "Cys208": 0.18523218167371985,
+        "His250": 0.0583871910945819
+      },
+      "delta_m154_driver_coupling_vs_3spu": {
+        "His120": -0.11418352268749898,
+        "His122": -0.11427084563364542,
+        "Asp124": -0.07530857437854133,
+        "His189": -0.0879279100270699,
+        "Cys208": -0.07843583900423945,
+        "His250": -0.059028522859628174
+      },
+      "m248_zinc_pocket_coupling": {
+        "3spu_apo": -0.045017445590411015,
+        "current": -0.09340439674094658,
+        "delta": -0.04838695115053557
+      }
+    }
+  }
+}
