@@ -1,0 +1,36 @@
+{
+  "phase": "PHASE V: COMPREHENSIVE REAL-WORLD CLINICAL & WET-LAB VALIDATION",
+  "nominal_confidence": 0.95,
+  "global_bldb_library_n48": {
+    "256.0_AMP": {
+      "pure_test_n7_two_sided_containment": 1.0,
+      "pure_test_n7_one_sided_upper_coverage": 1.0,
+      "calib_n11_two_sided_containment": 1.0,
+      "train_control_n30_containment": 1.0,
+      "false_safety_errors": 0
+    },
+    "16.0_CTX": {
+      "pure_test_n7_two_sided_containment": 1.0,
+      "pure_test_n7_one_sided_upper_coverage": 1.0,
+      "calib_n11_two_sided_containment": 1.0,
+      "train_control_n30_containment": 1.0,
+      "false_safety_errors": 0
+    },
+    "0.25_MEM": {
+      "pure_test_n7_two_sided_containment": 1.0,
+      "pure_test_n7_one_sided_upper_coverage": 1.0,
+      "calib_n11_two_sided_containment": 0.9090909090909091,
+      "train_control_n30_containment": 1.0,
+      "false_safety_errors": 0
+    }
+  },
+  "wet_lab_ec50_microdilutions_n21": {
+    "total_evaluated": 21,
+    "containment_two_sided": 1.0,
+    "containment_one_sided": 1.0,
+    "pure_test_singles_containment": 1.0,
+    "combinatorial_multi_mutants_containment": 1.0,
+    "triple_mutant_safe_certified": true
+  },
+  "patient_safety_summary": {}
+}
