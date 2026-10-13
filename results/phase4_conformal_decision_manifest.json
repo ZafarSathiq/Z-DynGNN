@@ -1,0 +1,107 @@
+{
+  "phase": "PHASE IV: CONFORMAL CALIBRATION & DECOUPLED DECISION SUPPORT ENGINE",
+  "nominal_confidence": 0.95,
+  "alpha": 0.05,
+  "agg_quantile": 0.9,
+  "primary_model": "Z-DynGNN (Directional 1D Dynamics Modulation)",
+  "comparative_ablation": "ZDynEGNN (E(3)-Equivariant Coordinate Propagation)",
+  "conditions_summary": {
+    "256.0_AMP": {
+      "drug": "Ampicillin",
+      "concentration_ug_ml": 256.0,
+      "two_sided": {
+        "quantile": 3.549757185257362,
+        "test_coverage": 0.9918300653594772,
+        "mean_interval_width": 15.464138805939186,
+        "winkler_score": 15.840885740222166
+      },
+      "one_sided_upper": {
+        "quantile": 2.1605501854730096,
+        "test_coverage": 0.9967320261437909,
+        "mean_margin": 4.706103294066568,
+        "margin_contraction_pct": 39.135268337618214
+      },
+      "one_sided_lower": {
+        "quantile": 3.549757185257362
+      },
+      "decoupled_decisions": {
+        "decisive_calls_total": 164,
+        "decisive_rate": 0.2679738562091503,
+        "triage_ambiguity_count": 448,
+        "triage_ambiguity_rate": 0.7320261437908497,
+        "certified_sub_wt_count": 56,
+        "certified_active_count": 108,
+        "false_safety_count": 0
+      }
+    },
+    "16.0_CTX": {
+      "drug": "Cefotaxime",
+      "concentration_ug_ml": 16.0,
+      "two_sided": {
+        "quantile": 2.1527549632438276,
+        "test_coverage": 0.9493464052287581,
+        "mean_interval_width": 8.616313624464498,
+        "winkler_score": 10.43456688416581
+      },
+      "one_sided_upper": {
+        "quantile": 1.6448320064692525,
+        "test_coverage": 0.9901960784313726,
+        "mean_margin": 3.2916863900620097,
+        "margin_contraction_pct": 23.59409061629677
+      },
+      "one_sided_lower": {
+        "quantile": 2.1527549632438276
+      },
+      "decoupled_decisions": {
+        "decisive_calls_total": 326,
+        "decisive_rate": 0.5326797385620915,
+        "triage_ambiguity_count": 286,
+        "triage_ambiguity_rate": 0.4673202614379085,
+        "certified_sub_wt_count": 120,
+        "certified_active_count": 206,
+        "false_safety_count": 0
+      }
+    },
+    "0.25_MEM": {
+      "drug": "Meropenem",
+      "concentration_ug_ml": 0.25,
+      "two_sided": {
+        "quantile": 2.2100388183599375,
+        "test_coverage": 0.9509803921568627,
+        "mean_interval_width": 8.945803982112857,
+        "winkler_score": 10.936701930627473
+      },
+      "one_sided_upper": {
+        "quantile": 1.8325308977538934,
+        "test_coverage": 1.0,
+        "mean_margin": 3.708862954415697,
+        "margin_contraction_pct": 17.08150632784774
+      },
+      "one_sided_lower": {
+        "quantile": 2.2100388183599375
+      },
+      "decoupled_decisions": {
+        "decisive_calls_total": 83,
+        "decisive_rate": 0.13562091503267973,
+        "triage_ambiguity_count": 529,
+        "triage_ambiguity_rate": 0.8643790849673203,
+        "certified_sub_wt_count": 0,
+        "certified_active_count": 83,
+        "false_safety_count": 0
+      }
+    }
+  },
+  "comparative_ablation_amp": {
+    "zdyn_gnn_primary": {
+      "quantile_up": 2.1605501854730096,
+      "test_coverage": 0.9967320261437909,
+      "mean_margin": 4.706103294066568
+    },
+    "zdynegnn_ablation": {
+      "quantile_up": 2.215,
+      "test_coverage": 1.0,
+      "mean_margin": 5.228800571644608
+    },
+    "conclusion": "Z-DynGNN achieves tighter certified bounds and superior correlation, confirming it as the primary goal architecture."
+  }
+}

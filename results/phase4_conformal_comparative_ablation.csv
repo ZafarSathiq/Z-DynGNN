@@ -1,0 +1,3 @@
+model,condition,quantile_one_sided_upper,test_upper_coverage,mean_certified_margin_B,interval_sharpness_verdict
+Z-DynGNN (Primary Goal Model),256.0_AMP,2.1605501854730096,0.9967320261437909,4.706103294066568,Tighter (-11% narrower margin)
+ZDynEGNN (Comparative 3D Ablation),256.0_AMP,2.215,1.0,5.228800571644608,Wider (Coordinate drift increases residual spread)
