@@ -49,7 +49,7 @@ Z-DynGNN enforces distribution-free **Topology-Conditioned Conformal Risk Contro
    where $\mathcal{S}(i)$ discretizes residues by contact coordination number $d_i$ and the Asymmetric Dynamic Coupling Index ($\text{DCI}_{\text{asym}}$).
 4. **Strict Position-Disjoint Partitioning (70% Train / 15% Calib / 15% Test)**: Held-out test positions are never exposed during model training or conformal calibration, eliminating spatial data leakage.
 
-*For full mathematical derivations, technical refutations of the Kim–Vu sandwich theorem on deterministic graphs, and complete architecture specifications, see `01. Correction v1 - NDM-1 Strategy.md`, `02. Comprehensive Guide - Original Strategy vs Correction v1 Explained.md`, and `17. System Architecture, Nix Deployment & Complete Scientific Synthesis.md`.*
+*For full mathematical derivations, distribution-free risk control proofs, and complete architecture specifications, see `01. Correction v1 - NDM-1 Strategy.md`, `02. Comprehensive Guide - Original Strategy vs Correction v1 Explained.md`, and `17. System Architecture, Nix Deployment & Complete Scientific Synthesis.md`.*
 
 ---
 
