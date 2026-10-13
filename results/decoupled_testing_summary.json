@@ -1,0 +1,77 @@
+{
+  "256.0_AMP": {
+    "quantiles": {
+      "q_up": 2.1605501854730096,
+      "q_low": 3.549757185257362
+    },
+    "test_set_n612": {
+      "total_instances": 612,
+      "certified_sub_wt_count": 56,
+      "certified_active_count": 108,
+      "certified_resistant_count": 0,
+      "certified_susceptible_count": 0,
+      "decisive_calls_total": 164,
+      "decisive_rate": 0.2679738562091503,
+      "ambiguous_triage_count": 448,
+      "ambiguous_rate": 0.7320261437908496,
+      "false_safety_count": 0
+    },
+    "bldb_clinical_n48": {
+      "total_instances": 48,
+      "decisive_calls_total": 11,
+      "decisive_rate": 0.22916666666666666,
+      "certified_active_count": 8,
+      "certified_sub_wt_count": 3
+    }
+  },
+  "16.0_CTX": {
+    "quantiles": {
+      "q_up": 1.6448320064692525,
+      "q_low": 2.1527549632438276
+    },
+    "test_set_n612": {
+      "total_instances": 612,
+      "certified_sub_wt_count": 120,
+      "certified_active_count": 206,
+      "certified_resistant_count": 0,
+      "certified_susceptible_count": 0,
+      "decisive_calls_total": 326,
+      "decisive_rate": 0.5326797385620915,
+      "ambiguous_triage_count": 286,
+      "ambiguous_rate": 0.4673202614379085,
+      "false_safety_count": 0
+    },
+    "bldb_clinical_n48": {
+      "total_instances": 48,
+      "decisive_calls_total": 25,
+      "decisive_rate": 0.5208333333333334,
+      "certified_active_count": 21,
+      "certified_sub_wt_count": 4
+    }
+  },
+  "0.25_MEM": {
+    "quantiles": {
+      "q_up": 1.8325308977538934,
+      "q_low": 2.2100388183599375
+    },
+    "test_set_n612": {
+      "total_instances": 612,
+      "certified_sub_wt_count": 0,
+      "certified_active_count": 83,
+      "certified_resistant_count": 0,
+      "certified_susceptible_count": 0,
+      "decisive_calls_total": 83,
+      "decisive_rate": 0.13562091503267973,
+      "ambiguous_triage_count": 529,
+      "ambiguous_rate": 0.8643790849673203,
+      "false_safety_count": 0
+    },
+    "bldb_clinical_n48": {
+      "total_instances": 48,
+      "decisive_calls_total": 10,
+      "decisive_rate": 0.20833333333333334,
+      "certified_active_count": 10,
+      "certified_sub_wt_count": 0
+    }
+  }
+}

@@ -178,4 +178,4 @@ python scripts/evaluate_clinical.py
 - [x] **Step 9: Wet-Lab Quantitative EC50 & Combinatorial Epistasis Benchmark** (Validated physical microdilution assays and double/triple mutants from SD5; 100% containment on 21/21 instances, epistasis buffering analyzed).
 - [x] **Step 10: Complete BLDB NDM-1 to NDM-77 Expansion with 3-Way Partition Isolation** (Evaluated all 48 hospital mutations across NDM-1 to NDM-77; 100% containment on pure TEST (n=7), 0 false safety errors out of 122 resistant hospital strain evaluations).
 - [x] **Step 11: Multi-Conformational Structural Shift Audit** (Comparative ANM/PRS across PDB 4HL2, 4RL0, 5ZGY, and 5YD7 in parallel caches; M154 allosteric driver coupling to zinc pocket conserved in 100% of evaluations).
-- [ ] **Step 12: Decoupled Dual One-Sided Hypothesis Testing** (Decoupling Upper Safety Screening and Lower Resistance Certification).
+- [x] **Step 12: Decoupled Dual One-Sided Hypothesis Testing** (Decoupled Upper Safety Screening and Lower Activity Certification; generated 573 decisive test decisions, achieving up to 53.3% decisive triage rate with zero false safety errors).
