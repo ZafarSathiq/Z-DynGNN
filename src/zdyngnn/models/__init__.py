@@ -7,14 +7,18 @@ from zdyngnn.models.dataset import (
 )
 from zdyngnn.models.gnn import (
     DynamicsMessagePassingLayer,
+    EquivariantDynamicsMessagePassingLayer,
     GaussianRBF,
+    ZDynEGNN,
     ZDynGNN,
     gaussian_nll_loss,
 )
 
 __all__ = [
     "ZDynGNN",
+    "ZDynEGNN",
     "DynamicsMessagePassingLayer",
+    "EquivariantDynamicsMessagePassingLayer",
     "GaussianRBF",
     "gaussian_nll_loss",
     "SiteMeanBaseline",

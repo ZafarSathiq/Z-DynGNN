@@ -27,7 +27,7 @@ class ProteinGraphContext:
     dci_edge: np.ndarray             # Shape (E,), directional DCI_asym from src to dst
     num_nodes: int                   # N = 228
     num_edges: int                   # E
-
+    coords: Optional[np.ndarray] = None  # Shape (N, 3), 3D Cartesian coordinates
     @classmethod
     def from_processed_caches(
         cls,
@@ -68,6 +68,7 @@ class ProteinGraphContext:
             dci_edge=dci_edge,
             num_nodes=n_nodes,
             num_edges=n_edges,
+            coords=struct_data["coords"].astype(np.float32) if "coords" in struct_data else None,
         )
 
     def get_base_node_features(self) -> np.ndarray:

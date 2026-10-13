@@ -1,0 +1,127 @@
+{
+  "phase": "PHASE III: SPATIAL INDEPENDENCE & Z-DYNGNN MODELING",
+  "spatial_partition": {
+    "train_positions": 163,
+    "calib_positions": 32,
+    "test_positions": 33,
+    "train_mutations": 3062,
+    "calib_mutations": 597,
+    "test_mutations": 612,
+    "disjoint_verified": true
+  },
+  "condition_benchmarks": {
+    "256.0_AMP": {
+      "noise_ceiling": {
+        "r2_max": 0.9729482693981465,
+        "r_max": 0.9863814015877157,
+        "snr": 35.96621168966851
+      },
+      "models": {
+        "site_mean_baseline": {
+          "rmse": 3.144530863790264,
+          "mae": 2.6964130232870755,
+          "r2_raw": -0.03508344054414225,
+          "r2_normalized": -0.036058896086884895,
+          "pearson_raw": NaN,
+          "pearson_normalized": NaN,
+          "spearman_rho": NaN
+        },
+        "ridge_baseline": {
+          "rmse": 2.5003692955644947,
+          "mae": 2.0165771604393794,
+          "r2_raw": 0.34555681197895405,
+          "r2_normalized": 0.3551646298653793,
+          "pearson_raw": 0.5938492075396168,
+          "pearson_normalized": 0.6020482610314177,
+          "spearman_rho": 0.6070551442743846
+        },
+        "zdyn_gnn": {
+          "rmse": 2.5560253994172717,
+          "mae": 1.9464532107574457,
+          "r2_raw": 0.31609785236572574,
+          "r2_normalized": 0.3248865970657,
+          "pearson_raw": 0.6338693196233708,
+          "pearson_normalized": 0.6426209158070818,
+          "spearman_rho": 0.6364653646145397
+        }
+      }
+    },
+    "16.0_CTX": {
+      "noise_ceiling": {
+        "r2_max": 0.9684133170355751,
+        "r_max": 0.9840799342713858,
+        "snr": 30.658911482610158
+      },
+      "models": {
+        "site_mean_baseline": {
+          "rmse": 2.630087135796476,
+          "mae": 2.3206361668837747,
+          "r2_raw": -0.019975711224036186,
+          "r2_normalized": -0.020627257879088385,
+          "pearson_raw": NaN,
+          "pearson_normalized": NaN,
+          "spearman_rho": NaN
+        },
+        "ridge_baseline": {
+          "rmse": 2.0809141896961325,
+          "mae": 1.652003818733448,
+          "r2_raw": 0.36150441418031043,
+          "r2_normalized": 0.37329558342600777,
+          "pearson_raw": 0.603739589337896,
+          "pearson_normalized": 0.6135066556203136,
+          "spearman_rho": 0.6277353530914773
+        },
+        "zdyn_gnn": {
+          "rmse": 2.1816752343867174,
+          "mae": 1.6906318248810384,
+          "r2_raw": 0.29817350533132214,
+          "r2_normalized": 0.30789901386741114,
+          "pearson_raw": 0.5883106118966965,
+          "pearson_normalized": 0.5978280741312773,
+          "spearman_rho": 0.6028545218478804
+        }
+      }
+    },
+    "0.25_MEM": {
+      "noise_ceiling": {
+        "r2_max": 0.9329412137175656,
+        "r_max": 0.965888820578003,
+        "snr": 13.912288984597112
+      },
+      "models": {
+        "site_mean_baseline": {
+          "rmse": 2.5720390728306404,
+          "mae": 2.251510532590651,
+          "r2_raw": -0.019107452117167245,
+          "r2_normalized": -0.020480874717741595,
+          "pearson_raw": NaN,
+          "pearson_normalized": NaN,
+          "spearman_rho": NaN
+        },
+        "ridge_baseline": {
+          "rmse": 2.0461445892897556,
+          "mae": 1.6407672525962729,
+          "r2_raw": 0.35503300233305124,
+          "r2_normalized": 0.38055238327217084,
+          "pearson_raw": 0.5980516081928986,
+          "pearson_normalized": 0.619172305809498,
+          "spearman_rho": 0.6208686319060829
+        },
+        "zdyn_gnn": {
+          "rmse": 2.2972301459970796,
+          "mae": 1.8363691210075332,
+          "r2_raw": 0.1870312213096137,
+          "r2_normalized": 0.2004748193772418,
+          "pearson_raw": 0.596720835420019,
+          "pearson_normalized": 0.6177945356722649,
+          "spearman_rho": 0.606664131812819
+        }
+      }
+    }
+  },
+  "files_generated": [
+    "phase3_model_comparisons_summary.csv",
+    "splits_position_disjoint.json",
+    "splits_5fold.json"
+  ]
+}

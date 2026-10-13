@@ -106,6 +106,106 @@ class DynamicsMessagePassingLayer(nn.Module):
         return h_next
 
 
+class EquivariantDynamicsMessagePassingLayer(nn.Module):
+    """E(3)-Equivariant Message Passing Layer (EGNN) with directional DCI_asym modulation.
+
+    Propagates invariant node representations h_i alongside 3D spatial coordinates x_i in R^3.
+    Guarantees E(3) rotational and translational equivariance while sensing 3D steric clashes.
+    Zero pre-trained models or language embeddings required.
+    """
+
+    def __init__(
+        self,
+        node_dim: int,
+        edge_dim: int,
+        dropout: float = 0.1,
+    ):
+        super().__init__()
+        self.node_dim = node_dim
+        self.edge_dim = edge_dim
+
+        # Message network: [h_src, h_dst, d_ij^2, edge_attr, dci_asym] -> node_dim
+        self.msg_mlp = nn.Sequential(
+            nn.Linear(node_dim * 2 + 1 + edge_dim + 1, node_dim),
+            nn.SiLU(),
+            nn.Dropout(dropout),
+            nn.Linear(node_dim, node_dim),
+        )
+
+        # 3D Coordinate weighting network: message -> scalar displacement scaling
+        self.coord_mlp = nn.Sequential(
+            nn.Linear(node_dim, node_dim // 2),
+            nn.SiLU(),
+            nn.Linear(node_dim // 2, 1),
+        )
+
+        # Node feature update network: takes [h, aggregated_messages, coord_disp_norm]
+        self.update_mlp = nn.Sequential(
+            nn.Linear(node_dim * 2 + 1, node_dim),
+            nn.SiLU(),
+            nn.Dropout(dropout),
+            nn.Linear(node_dim, node_dim),
+        )
+
+        self.norm = nn.LayerNorm(node_dim)
+
+    def forward(
+        self,
+        h: torch.Tensor,
+        coords: torch.Tensor,
+        edge_index: torch.Tensor,
+        edge_attr: torch.Tensor,
+        dci_edge: torch.Tensor,
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Forward pass.
+
+        Args:
+            h: Invariant node representations, shape (N, node_dim).
+            coords: 3D Cartesian coordinates, shape (N, 3).
+            edge_index: Graph edge indices, shape (2, E). (src -> dst).
+            edge_attr: Edge attributes (e.g. RBF distance), shape (E, edge_dim).
+            dci_edge: Directional DCI_asym edge values, shape (E, 1).
+
+        Returns:
+            h_next: Updated node representations, shape (N, node_dim).
+            coords_next: Updated E(3)-equivariant 3D coordinates, shape (N, 3).
+        """
+        src = edge_index[0]
+        dst = edge_index[1]
+        n_nodes = h.size(0)
+
+        if edge_attr.dim() == 1:
+            edge_attr = edge_attr.view(-1, 1)
+        if dci_edge.dim() == 1:
+            dci_edge = dci_edge.view(-1, 1)
+
+        # Compute pairwise displacement vectors and squared Euclidean distances in R^3
+        disp = coords[dst] - coords[src]  # (E, 3)
+        dist_sq = torch.sum(disp ** 2, dim=-1, keepdim=True)  # (E, 1)
+
+        # 1. Invariant message formulation
+        msg_input = torch.cat([h[src], h[dst], dist_sq, edge_attr, dci_edge], dim=-1)
+        messages = self.msg_mlp(msg_input)  # (E, node_dim)
+
+        # 2. Equivariant 3D coordinate update
+        coord_weights = torch.clamp(self.coord_mlp(messages), min=-5.0, max=5.0)  # (E, 1)
+        weighted_disp = disp * coord_weights  # (E, 3)
+
+        coord_agg = torch.zeros(n_nodes, 3, device=coords.device, dtype=coords.dtype)
+        coord_agg.index_add_(0, dst, weighted_disp)
+        coords_next = coords + coord_agg
+
+        # 3. Invariant node representation update conditioned on physical displacement magnitude
+        coord_disp_norm = torch.norm(coord_agg, dim=-1, keepdim=True)
+        aggregated = torch.zeros(n_nodes, self.node_dim, device=h.device, dtype=h.dtype)
+        aggregated.index_add_(0, dst, messages)
+
+        update_input = torch.cat([h, aggregated, coord_disp_norm], dim=-1)
+        h_update = self.update_mlp(update_input)
+        h_next = self.norm(h + h_update)
+        return h_next, coords_next
+
+
 class ZDynGNN(nn.Module):
     """Z-score Calibrated Dynamics-Aware Graph Neural Network (Z-DynGNN).
 
@@ -263,6 +363,142 @@ class ZDynGNN(nn.Module):
         logvar = torch.clamp(logvar, min=-10.0, max=5.0)
         sigma = torch.exp(0.5 * logvar)
 
+        return mu, sigma
+
+
+class ZDynEGNN(nn.Module):
+    """3D Physics-Equivariant Dynamics Graph Neural Network (ZDynEGNN).
+
+    Upgrades message passing with E(3)-equivariant coordinate updates (EGNN),
+    propagating 3D Cartesian coordinates alongside directional DCI_asym modulation
+    and dual heteroscedastic heads (mu, sigma).
+    Zero pre-trained language models (no ESM-2). Pure structural biophysics.
+    """
+
+    def __init__(
+        self,
+        node_in_dim: int = 34,
+        num_rbf: int = 16,
+        hidden_dim: int = 64,
+        num_layers: int = 3,
+        dropout: float = 0.1,
+        dist_cutoff: float = 8.0,
+    ):
+        super().__init__()
+        self.node_in_dim = node_in_dim
+        self.num_rbf = num_rbf
+        self.hidden_dim = hidden_dim
+        self.num_layers = num_layers
+        self.dist_cutoff = dist_cutoff
+
+        self.rbf = GaussianRBF(num_centers=num_rbf, d_min=0.0, d_max=dist_cutoff)
+
+        self.node_encoder = nn.Sequential(
+            nn.Linear(node_in_dim, hidden_dim),
+            nn.SiLU(),
+            nn.LayerNorm(hidden_dim),
+        )
+
+        self.edge_encoder = nn.Sequential(
+            nn.Linear(num_rbf, hidden_dim // 2),
+            nn.SiLU(),
+            nn.Linear(hidden_dim // 2, hidden_dim // 2),
+        )
+
+        self.layers = nn.ModuleList([
+            EquivariantDynamicsMessagePassingLayer(
+                node_dim=hidden_dim,
+                edge_dim=hidden_dim // 2,
+                dropout=dropout,
+            )
+            for _ in range(num_layers)
+        ])
+
+        # Mutation-level dual heads: takes [h_pos (hidden_dim), wt_onehot (20), mut_onehot (20)]
+        self.mutation_mean_head = nn.Sequential(
+            nn.Linear(hidden_dim + 40, hidden_dim),
+            nn.SiLU(),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_dim, hidden_dim // 2),
+            nn.SiLU(),
+            nn.Linear(hidden_dim // 2, 1),
+        )
+
+        self.mutation_logvar_head = nn.Sequential(
+            nn.Linear(hidden_dim + 40, hidden_dim),
+            nn.SiLU(),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_dim, hidden_dim // 2),
+            nn.SiLU(),
+            nn.Linear(hidden_dim // 2, 1),
+        )
+
+        # Node-level default heads
+        self.node_mean_head = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim // 2),
+            nn.SiLU(),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_dim // 2, 1),
+        )
+        self.node_logvar_head = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim // 2),
+            nn.SiLU(),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_dim // 2, 1),
+        )
+
+    def forward(
+        self,
+        x: torch.Tensor,
+        coords: torch.Tensor,
+        edge_index: torch.Tensor,
+        edge_dist: Optional[torch.Tensor] = None,
+        dci_edge: Optional[torch.Tensor] = None,
+        edge_attr: Optional[torch.Tensor] = None,
+        mut_positions: Optional[torch.Tensor] = None,
+        mut_wt_idx: Optional[torch.Tensor] = None,
+        mut_aa_idx: Optional[torch.Tensor] = None,
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Forward pass with 3D coordinate propagation."""
+        n_edges = edge_index.size(1)
+        device = x.device
+
+        if edge_attr is None:
+            if edge_dist is None:
+                edge_dist = torch.ones(n_edges, 1, device=device)
+            rbf_feats = self.rbf(edge_dist)
+            edge_feats = self.edge_encoder(rbf_feats)
+        else:
+            if edge_attr.size(-1) == self.num_rbf:
+                edge_feats = self.edge_encoder(edge_attr)
+            else:
+                edge_feats = edge_attr
+
+        if dci_edge is None:
+            dci_edge = torch.zeros(n_edges, 1, device=device)
+        else:
+            dci_edge = dci_edge.view(-1, 1)
+
+        h = self.node_encoder(x)
+        curr_coords = coords.clone()
+
+        for layer in self.layers:
+            h, curr_coords = layer(h, curr_coords, edge_index, edge_feats, dci_edge)
+
+        if mut_positions is not None and mut_wt_idx is not None and mut_aa_idx is not None:
+            h_pos = h[mut_positions]
+            wt_oh = F.one_hot(mut_wt_idx, num_classes=20).float().to(device)
+            mut_oh = F.one_hot(mut_aa_idx, num_classes=20).float().to(device)
+            z_mut = torch.cat([h_pos, wt_oh, mut_oh], dim=-1)
+
+            mu = self.mutation_mean_head(z_mut)
+            logvar = self.mutation_logvar_head(z_mut)
+        else:
+            mu = self.node_mean_head(h)
+            logvar = self.node_logvar_head(h)
+
+        logvar = torch.clamp(logvar, min=-10.0, max=5.0)
+        sigma = torch.exp(0.5 * logvar)
         return mu, sigma
 
 
