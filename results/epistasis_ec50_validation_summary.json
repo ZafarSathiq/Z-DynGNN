@@ -1,0 +1,108 @@
+{
+  "dataset": "Chen et al. 2024 Supplementary Data 5 (EC50 Assays)",
+  "condition_model": "256.0_AMP",
+  "conformal_quantiles": {
+    "two_sided_q": 3.5497574742086417,
+    "one_sided_upper_q": 2.160550207000048
+  },
+  "single_mutants_n12": {
+    "total_count": 12,
+    "containment_two_sided": 1.0,
+    "containment_one_sided": 1.0,
+    "pure_test_n2": {
+      "mutations": [
+        "G197Y",
+        "I259L"
+      ],
+      "containment_two_sided": 1.0,
+      "containment_one_sided": 1.0
+    }
+  },
+  "combinatorial_multi_mutants_n9": {
+    "total_count": 9,
+    "containment_two_sided": 1.0,
+    "containment_one_sided": 1.0,
+    "epistasis_events": [
+      {
+        "sample": "epi1 K125R S249G",
+        "actual_log2": -7.891643802,
+        "expected_add": -8.015355881,
+        "epistasis_delta": 0.1237120789999997,
+        "interpretation": "Synergistic Buffering",
+        "contained_in_bound": true
+      },
+      {
+        "sample": "epi2 L218A A266V",
+        "actual_log2": -3.689225664,
+        "expected_add": -4.533408949,
+        "epistasis_delta": 0.8441832850000002,
+        "interpretation": "Synergistic Buffering",
+        "contained_in_bound": true
+      },
+      {
+        "sample": "epi3 K211Y Y229W",
+        "actual_log2": -7.029100671,
+        "expected_add": -8.899221188,
+        "epistasis_delta": 1.8701205170000001,
+        "interpretation": "Synergistic Buffering",
+        "contained_in_bound": true
+      },
+      {
+        "sample": "epi4 G197Y A204L",
+        "actual_log2": -6.87208815,
+        "expected_add": -6.531391173,
+        "epistasis_delta": -0.34069697699999946,
+        "interpretation": "Deleterious Interference",
+        "contained_in_bound": true
+      },
+      {
+        "sample": "epi5 A204L I246V",
+        "actual_log2": -3.953452889,
+        "expected_add": -5.147064394,
+        "epistasis_delta": 1.1936115050000002,
+        "interpretation": "Synergistic Buffering",
+        "contained_in_bound": true
+      },
+      {
+        "sample": "epi5 A204L I259L",
+        "actual_log2": -6.907001799,
+        "expected_add": -5.81069537,
+        "epistasis_delta": -1.0963064289999993,
+        "interpretation": "Deleterious Interference",
+        "contained_in_bound": true
+      },
+      {
+        "sample": "epi5 I246V I259L",
+        "actual_log2": -2.61920375,
+        "expected_add": -1.564223384,
+        "epistasis_delta": -1.0549803660000001,
+        "interpretation": "Deleterious Interference",
+        "contained_in_bound": true
+      },
+      {
+        "sample": "epi5 A204L I246V I259L",
+        "actual_log2": -6.867765839,
+        "expected_add": -6.260991574,
+        "epistasis_delta": -0.6067742649999994,
+        "interpretation": "Deleterious Interference",
+        "contained_in_bound": true
+      },
+      {
+        "sample": "epi6 M67F P68D",
+        "actual_log2": -0.584456181,
+        "expected_add": -1.117069572,
+        "epistasis_delta": 0.5326133909999999,
+        "interpretation": "Synergistic Buffering",
+        "contained_in_bound": true
+      }
+    ]
+  },
+  "overall_physical_ec50_containment": {
+    "total_evaluated": 21,
+    "containment_rate_two_sided": 1.0,
+    "containment_rate_one_sided": 1.0
+  },
+  "files_generated": [
+    "epistasis_combinatorial_certificates.csv"
+  ]
+}
