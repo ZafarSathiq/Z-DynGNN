@@ -25,7 +25,17 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0.0",
+    "pyrefly>=1.3.0",
 ]
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pyrefly]
+project-includes = [
+    "src/**/*.py",
+]
+project-excludes = [
+    ".venv/**",
+    "archive/**",
+]

@@ -63,6 +63,8 @@ def parse_pdb_structure(
 
     parser = PDBParser(QUIET=True)
     structure = parser.get_structure(pdb_path.stem, str(pdb_path))
+    if structure is None:
+        raise ValueError(f"Failed to parse PDB structure from {pdb_path}")
     model = structure[model_id]
 
     if chain_id not in model:

@@ -131,7 +131,7 @@ def extract_bldb_variant_evaluation(
     condition: str = "custom",
     quantile: float = 3.550,
     catalog: Optional[List[Dict[str, Union[str, int]]]] = None,
-) -> Tuple[pd.DataFrame, Dict[str, float]]:
+) -> Tuple[pd.DataFrame, Dict[str, Union[float, int, str]]]:
     """Filter predictions DataFrame to the 22 unexposed validation variants and attach certificates."""
     if catalog is None:
         catalog = UNEXPOSED_VALIDATION_VARIANTS

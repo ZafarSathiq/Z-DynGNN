@@ -60,16 +60,12 @@ Z-DynGNN enforces distribution-free **Topology-Conditioned Conformal Risk Contro
 The project includes declarative Nix manifests ensuring identical C runtime libraries, compiler toolchains, and package versions:
 
 ```bash
-# 1. Enter the Nix dev environment
+# 1. Enter the Nix dev environment (auto-configures C++ runtime, uv, and activates .venv)
 nix develop
 
-# 2. Inside the Nix shell, initialize the virtual environment with uv
-uv venv --python python3.11 .venv
-source .venv/bin/activate
-uv pip install torch --index-url https://download.pytorch.org/whl/cpu
-uv pip install -e ".[dev]"
+# 2. Or using classic Nix-shell fallback:
+nix-shell
 ```
-
 Inside the shell, Python 3.11, `uv`, Git, curl, and GNU C dynamic libraries are automatically configured.
 ### Option B: Local Python Virtual Environment
 
@@ -95,13 +91,17 @@ uv pip install -e ".[dev]"
 Verify package modules, biophysical dynamics, and conformal coverage:
 
 ```bash
-source .venv/bin/activate
+# 1. Run full unit and integration test suite (80 tests)
 pytest tests/ -v
+
+# 2. Run static type checking via Pyrefly
+pyrefly check
 ```
 
 Expected output:
 ```
-============================= 80 passed in 7.84s ===============================
+============================= 80 passed in 6.33s ===============================
+INFO 0 errors
 ```
 
 ---

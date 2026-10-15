@@ -50,8 +50,8 @@ def load_raw_dms_excel(
 
     # Convert score and sd columns to numeric float
     for cond in DMS_CONDITIONS:
-        score_col = cond["score_col"]
-        sd_col = cond["sd_col"]
+        score_col = str(cond["score_col"])
+        sd_col = str(cond["sd_col"])
         if score_col in df.columns:
             df[score_col] = pd.to_numeric(df[score_col], errors="coerce")
         if sd_col in df.columns:

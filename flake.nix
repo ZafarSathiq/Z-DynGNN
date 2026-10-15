@@ -27,6 +27,13 @@
 
           shellHook = ''
             export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.zlib}/lib:$LD_LIBRARY_PATH"
+            if [ ! -d ".venv" ]; then
+              echo "[*] Creating hermetic Python virtual environment with uv..."
+              uv venv .venv --python ${pkgs.python311}/bin/python3
+            fi
+            source .venv/bin/activate
+            export PYTHONPATH="$PWD/src:$PYTHONPATH"
+            echo "[+] Z-DynGNN Nix Flake environment active (Python $(python --version 2>&1), uv $(uv --version 2>&1))"
           '';
         };
       });

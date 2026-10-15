@@ -207,14 +207,17 @@ def calibrate_cluster_conformal(
     calib_df_copy["R"] = r_calib
 
     # Position-aggregated non-conformity scores
-    pos_scores = calib_df_copy.groupby(pos_col)["R"].quantile(agg_quantile).values
+    pos_scores = np.asarray(calib_df_copy.groupby(pos_col)["R"].quantile(agg_quantile).to_numpy(), dtype=np.float64)
     q_cluster = compute_conformal_quantile(pos_scores, alpha=alpha)
 
     # Test intervals
-    b_test = q_cluster * test_df[sigma_col].values.astype(np.float64)
-    lower = test_df[mu_col].values.astype(np.float64) - b_test
-    upper = test_df[mu_col].values.astype(np.float64) + b_test
-    y_test = test_df[score_col].values.astype(np.float64)
+    sig_arr = np.asarray(test_df[sigma_col].to_numpy(), dtype=np.float64)
+    mu_arr = np.asarray(test_df[mu_col].to_numpy(), dtype=np.float64)
+    y_test = np.asarray(test_df[score_col].to_numpy(), dtype=np.float64)
+
+    b_test = q_cluster * sig_arr
+    lower = mu_arr - b_test
+    upper = mu_arr + b_test
 
     covered = (y_test >= lower) & (y_test <= upper)
     emp_cov = float(np.mean(covered))
@@ -271,13 +274,16 @@ def calibrate_one_sided_cluster_conformal(
     calib_df_copy = calib_df.copy()
     calib_df_copy["R_upper"] = r_upper_calib
 
-    pos_scores = calib_df_copy.groupby(pos_col)["R_upper"].quantile(agg_quantile).values
+    pos_scores = np.asarray(calib_df_copy.groupby(pos_col)["R_upper"].quantile(agg_quantile).to_numpy(), dtype=np.float64)
     q_upper = compute_conformal_quantile(pos_scores, alpha=alpha)
 
     # Test one-sided upper bounds
-    margin = q_upper * test_df[sigma_col].values.astype(np.float64)
-    upper = test_df[mu_col].values.astype(np.float64) + margin
-    y_test = test_df[score_col].values.astype(np.float64)
+    sig_arr = np.asarray(test_df[sigma_col].to_numpy(), dtype=np.float64)
+    mu_arr = np.asarray(test_df[mu_col].to_numpy(), dtype=np.float64)
+    y_test = np.asarray(test_df[score_col].to_numpy(), dtype=np.float64)
+
+    margin = q_upper * sig_arr
+    upper = mu_arr + margin
 
     covered = y_test <= upper
     emp_cov = float(np.mean(covered))

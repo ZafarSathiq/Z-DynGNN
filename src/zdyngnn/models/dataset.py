@@ -112,23 +112,23 @@ class MutationDataset(Dataset):
 
         if sd_col in self.df.columns:
             # Handle potential NaNs in replicate SD with median imputation
-            raw_sds = pd.to_numeric(self.df[sd_col], errors="coerce").values
+            raw_sds = pd.to_numeric(self.df[sd_col], errors="coerce").to_numpy(dtype=np.float64)
             median_sd = float(np.nanmedian(raw_sds)) if not np.all(np.isnan(raw_sds)) else 0.35
-            clean_sds = np.where(np.isnan(raw_sds), median_sd, raw_sds)
-            self.sds = clean_sds.astype(np.float32)
+            clean_sds = np.where(np.isnan(raw_sds), median_sd, raw_sds).astype(np.float32)
+            self.sds = clean_sds
         else:
             self.sds = np.ones(len(self.df), dtype=np.float32) * 0.35
 
     def __len__(self) -> int:
         return len(self.df)
 
-    def __getitem__(self, idx: int) -> Dict[str, Union[int, str, float]]:
+    def __getitem__(self, index: int) -> Dict[str, Union[int, str, float]]:
         return {
-            "pos": int(self.positions[idx]),
-            "wt": str(self.wt[idx]),
-            "mut": str(self.mut[idx]),
-            "fitness_score": float(self.scores[idx]),
-            "replicate_sd": float(self.sds[idx]),
+            "pos": int(self.positions[index]),
+            "wt": str(self.wt[index]),
+            "mut": str(self.mut[index]),
+            "fitness_score": float(self.scores[index]),
+            "replicate_sd": float(self.sds[index]),
         }
 
 

@@ -74,12 +74,13 @@ class TopologyConditionedConformalCalibrator:
         self.stratum_sample_counts = {}
 
         for s, group in calib_df_copy.groupby(strata_col):
-            s_int = int(s)
+            s_int = int(str(s))
             m_s = len(group)
             self.stratum_sample_counts[s_int] = m_s
 
             if m_s >= self.min_stratum_samples:
-                q_s = compute_conformal_quantile(group["R"].values, alpha=self.alpha)
+                res_arr = np.asarray(group["R"].to_numpy(), dtype=np.float64)
+                q_s = compute_conformal_quantile(res_arr, alpha=self.alpha)
                 self.stratum_quantiles[s_int] = q_s
             else:
                 # Hierarchical fallback: borrow strength from global quantile
@@ -103,10 +104,10 @@ class TopologyConditionedConformalCalibrator:
         Returns:
             StratifiedConformalResult with full bounds and per-stratum diagnostics.
         """
-        test_strata = test_df[strata_col].values.astype(int)
-        test_mu = test_df[mu_col].values.astype(np.float64)
-        test_sigma = test_df[sigma_col].values.astype(np.float64)
-        y_test = test_df[score_col].values.astype(np.float64)
+        test_strata = np.asarray(test_df[strata_col].to_numpy(), dtype=int)
+        test_mu = np.asarray(test_df[mu_col].to_numpy(), dtype=np.float64)
+        test_sigma = np.asarray(test_df[sigma_col].to_numpy(), dtype=np.float64)
+        y_test = np.asarray(test_df[score_col].to_numpy(), dtype=np.float64)
 
         # Look up stratum-specific quantiles
         test_q = np.array([self.stratum_quantiles.get(int(s), self.global_quantile) for s in test_strata], dtype=np.float64)
@@ -149,7 +150,7 @@ class TopologyConditionedConformalCalibrator:
         bounds_df["covered"] = covered
 
         for s, grp in bounds_df.groupby(strata_col):
-            s_int = int(s)
+            s_int = int(str(s))
             stratum_cov[s_int] = float(np.mean(grp["covered"]))
             stratum_width[s_int] = float(np.mean(grp["interval_width"]))
 

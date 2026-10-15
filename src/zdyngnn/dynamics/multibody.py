@@ -6,6 +6,7 @@ biophysics. Extracts 3-body, 4-body, and catalytic hexamer cumulants from
 regularized submatrix determinants of GNM/ANM covariance matrices in polynomial time.
 """
 import itertools
+import math
 from typing import Dict, List, Optional, Sequence, Set, Tuple, Union
 
 import numpy as np
@@ -222,7 +223,7 @@ def _compute_general_cumulant(
 
     for part in partitions:
         num_blocks = len(part)
-        sign_factor = ((-1.0) ** (num_blocks - 1)) * float(np.math.factorial(num_blocks - 1))
+        sign_factor = ((-1.0) ** (num_blocks - 1)) * float(math.factorial(num_blocks - 1))
         prod_val = 1.0
         for block in part:
             prod_val *= get_correlator(tuple(sorted(block)))

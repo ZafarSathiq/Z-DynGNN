@@ -93,9 +93,9 @@ def compute_all_noise_ceilings(df: pd.DataFrame) -> Dict[str, NoiseCeilingResult
     """
     results: Dict[str, NoiseCeilingResult] = {}
     for cond in DMS_CONDITIONS:
-        name = cond["condition"]
-        score_col = cond["score_col"]
-        sd_col = cond["sd_col"]
+        name = str(cond["condition"])
+        score_col = str(cond["score_col"])
+        sd_col = str(cond["sd_col"])
         if score_col in df.columns and sd_col in df.columns:
             res = compute_condition_noise_ceiling(
                 scores=df[score_col],
