@@ -19,6 +19,14 @@ from zdyngnn.dynamics.topology import (
     compute_clustering_coefficients,
     compute_laplacian_spectral_features,
 )
+from zdyngnn.dynamics.multibody import (
+    compute_joint_correlator,
+    compute_multibody_cumulant,
+    compute_node_multibody_features,
+    compute_subsystem_logdet,
+    extract_catalytic_hexamer_metrics,
+    find_contact_cliques,
+)
 
 __all__ = [
     "build_kirchhoff_matrix",
@@ -35,4 +43,10 @@ __all__ = [
     "compute_laplacian_spectral_features",
     "build_residue_feature_matrix",
     "assign_topology_bins",
+    "compute_subsystem_logdet",
+    "find_contact_cliques",
+    "compute_joint_correlator",
+    "compute_multibody_cumulant",
+    "extract_catalytic_hexamer_metrics",
+    "compute_node_multibody_features",
 ]

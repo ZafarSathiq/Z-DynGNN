@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-10-15T11:15:05Z",
+  "structures_evaluated": {
+    "3SPU": {
+      "description": "Apo Native (1.30 \u00c5)",
+      "hexamer_metrics": {
+        "hexamer_logdet": -12.836833203028483,
+        "hexamer_trace": 0.7300069701055409,
+        "hexamer_mean_corr": 0.0364145694804182,
+        "hexamer_condition": 2.211747834213898
+      },
+      "allosteric_triplets": {
+        "M154_L8_H120": 128.27626260470197,
+        "M154_L8_D124": 104.95463692378652,
+        "M154_L3_H250": 75.65417905284603,
+        "Surface_Control": 90.23647881383238
+      }
+    },
+    "4HL2": {
+      "description": "Ampicillin-Bound Open (1.05 \u00c5)",
+      "hexamer_metrics": {
+        "hexamer_logdet": -12.667504818802295,
+        "hexamer_trace": 0.7524739136630342,
+        "hexamer_mean_corr": 0.038765305348973454,
+        "hexamer_condition": 2.3114536713474934
+      },
+      "allosteric_triplets": {
+        "M154_L8_H120": 134.19704798900284,
+        "M154_L8_D124": 102.80227200278063,
+        "M154_L3_H250": 75.1294924460984,
+        "Surface_Control": 92.52836019822456
+      }
+    },
+    "4RL0": {
+      "description": "Meropenem-Bound Clamped (1.30 \u00c5)",
+      "hexamer_metrics": {
+        "hexamer_logdet": -12.860776069985544,
+        "hexamer_trace": 0.7262311082210493,
+        "hexamer_mean_corr": 0.03744797351432514,
+        "hexamer_condition": 2.1869957673324305
+      },
+      "allosteric_triplets": {
+        "M154_L8_H120": 130.8553651254282,
+        "M154_L8_D124": 104.24693194435272,
+        "M154_L3_H250": 74.14174218495343,
+        "Surface_Control": 91.34774630419389
+      }
+    },
+    "5ZGY": {
+      "description": "Cryogenic Ultra-High Res (0.95 \u00c5)",
+      "hexamer_metrics": {
+        "hexamer_logdet": -13.036128061162655,
+        "hexamer_trace": 0.7039348950214076,
+        "hexamer_mean_corr": 0.036049711331136915,
+        "hexamer_condition": 2.1531196872354377
+      },
+      "allosteric_triplets": {
+        "M154_L8_H120": 133.52903451086866,
+        "M154_L8_D124": 108.53727916905427,
+        "M154_L3_H250": 80.78637795891632,
+        "Surface_Control": 90.21342225660703
+      }
+    },
+    "5O2E": {
+      "description": "Cephalosporin-Bound (1.30 \u00c5)",
+      "hexamer_metrics": {
+        "hexamer_logdet": -12.832498244324885,
+        "hexamer_trace": 0.7302749828411563,
+        "hexamer_mean_corr": 0.03787001849757369,
+        "hexamer_condition": 2.2463361619961746
+      },
+      "allosteric_triplets": {
+        "M154_L8_H120": 132.93250792879672,
+        "M154_L8_D124": 106.26760720290218,
+        "M154_L3_H250": 75.91572345234202,
+        "Surface_Control": 89.26054618825725
+      }
+    }
+  }
+}

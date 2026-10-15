@@ -222,6 +222,8 @@ class ZDynGNN(nn.Module):
         num_layers: int = 3,
         dropout: float = 0.1,
         dist_cutoff: float = 8.0,
+        use_multibody: bool = False,
+        multibody_dim: int = 6,
     ):
         super().__init__()
         self.node_in_dim = node_in_dim
@@ -229,6 +231,8 @@ class ZDynGNN(nn.Module):
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
         self.dist_cutoff = dist_cutoff
+        self.use_multibody = use_multibody
+        self.multibody_dim = multibody_dim
 
         # RBF distance expansion
         self.rbf = GaussianRBF(num_centers=num_rbf, d_min=0.0, d_max=dist_cutoff)
@@ -239,6 +243,15 @@ class ZDynGNN(nn.Module):
             nn.SiLU(),
             nn.LayerNorm(hidden_dim),
         )
+        # Optional multi-body higher-order cumulant encoder
+        if use_multibody:
+            self.multibody_encoder = nn.Sequential(
+                nn.Linear(multibody_dim, hidden_dim // 2),
+                nn.SiLU(),
+                nn.Linear(hidden_dim // 2, hidden_dim),
+            )
+        else:
+            self.multibody_encoder = None
 
         self.edge_encoder = nn.Sequential(
             nn.Linear(num_rbf, hidden_dim // 2),
@@ -299,6 +312,7 @@ class ZDynGNN(nn.Module):
         mut_positions: Optional[torch.Tensor] = None,
         mut_wt_idx: Optional[torch.Tensor] = None,
         mut_aa_idx: Optional[torch.Tensor] = None,
+        multibody_feats: Optional[torch.Tensor] = None,
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         """Forward pass.
 
@@ -311,6 +325,7 @@ class ZDynGNN(nn.Module):
             mut_positions: Optional tensor of mutated node indices, shape (M,).
             mut_wt_idx: Optional tensor of WT amino acid indices in 0..19, shape (M,).
             mut_aa_idx: Optional tensor of MUT amino acid indices in 0..19, shape (M,).
+            multibody_feats: Optional multi-body cumulant node features of shape (N, multibody_dim).
 
         Returns:
             mu: Predictive mean fitness effect, shape (M, 1) or (N, 1).
@@ -339,6 +354,9 @@ class ZDynGNN(nn.Module):
 
         # Encode nodes
         h = self.node_encoder(x)
+        # Fuse multi-body higher-order allosteric cumulant features if enabled
+        if self.use_multibody and self.multibody_encoder is not None and multibody_feats is not None:
+            h = h + self.multibody_encoder(multibody_feats)
 
         # Apply message passing layers
         for layer in self.layers:

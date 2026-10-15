@@ -1,0 +1,37 @@
+{
+  "condition": "256.0_AMP",
+  "baseline": {
+    "metrics": {
+      "rmse": 2.556025266647339,
+      "mae": 1.9464532136917114,
+      "r2_raw": 0.31609785556793213,
+      "r2_normalized": 0.3248866003569401,
+      "pearson_raw": 0.6338692903518677,
+      "pearson_normalized": 0.642620861530304,
+      "spearman": 0.6364653646145397
+    },
+    "coverage": 99.18300653594771,
+    "mean_width": 15.464139927040621,
+    "decisive_rate": 17.647058823529413,
+    "false_safety_errors": 0,
+    "m154l_mu": 0.0,
+    "m154l_sigma": 0.0
+  },
+  "multibody": {
+    "metrics": {
+      "rmse": 2.414933443069458,
+      "mae": 1.8966434001922607,
+      "r2_raw": 0.3895164728164673,
+      "r2_normalized": 0.40034653955180705,
+      "pearson_raw": 0.6611519455909729,
+      "pearson_normalized": 0.6702802181243896,
+      "spearman": 0.6455045633913183
+    },
+    "coverage": 98.69281045751634,
+    "mean_width": 12.89576229290258,
+    "decisive_rate": 16.666666666666664,
+    "false_safety_errors": 0,
+    "m154l_mu": 0.0,
+    "m154l_sigma": 0.0
+  }
+}
