@@ -101,7 +101,7 @@ pytest tests/ -v
 
 Expected output:
 ```
-============================= 28 passed in 13.08s ==============================
+============================= 80 passed in 7.84s ===============================
 ```
 
 ---
@@ -111,23 +111,22 @@ Expected output:
 Execute the end-to-end scientific pipeline from raw PDB/DMS inputs to clinical certificates:
 
 ```bash
-# 1. Step 2: Ingest PDB 3SPU and Chen et al. DMS tables into data/processed/
-python scripts/preprocess_data.py
+# Phase I: Data Foundation, Experimental Noise Ceilings & 9-Dose Pharmacodynamics
+python scripts/phase1_data_pharmacodynamics.py
 
-# 2. Step 3: Compute GNM/ANM Kirchhoff spectrum, PRS response, and DCI_asym
-python scripts/compute_dynamics.py
+# Phase II: Multi-Conformational Structural Dynamics & Multi-Body Allostery
+python scripts/phase2_structural_dynamics.py
+python scripts/compute_multibody_biophysics.py
 
-# 3. Step 4: Generate stratified 70/15/15 position-disjoint splits and 5-fold CV
-python scripts/create_splits.py
+# Phase III: Spatial Independence Modeling & Z-DynGNN Training
+python scripts/phase3_spatial_modeling.py
+python scripts/train_multibody_zdyn_gnn.py --condition 256.0_AMP
 
-# 4. Step 5: Train Z-DynGNN and benchmark against Site-Mean and Ridge baselines
-python scripts/train_zdyn_gnn.py --condition 256.0_AMP
+# Phase IV: Certified Conformal Calibration & Decoupled Decision Support Engine
+python scripts/phase4_conformal_decision_engine.py
 
-# 5. Step 6: Execute Topology-Conditioned & Cluster-Adjusted Conformal Calibration
-python scripts/calibrate_conformal.py --alpha 0.05
-
-# 6. Step 7: Run clinical validation against BLDB hospital variants & M154L
-python scripts/evaluate_clinical.py
+# Phase V: Comprehensive Real-World Clinical Outbreak & Wet-Lab EC50 Validation
+python scripts/phase5_clinical_wetlab_validation.py
 ```
 
 ---
@@ -163,6 +162,18 @@ python scripts/evaluate_clinical.py
 - **M154L Allosteric Super-Variant:** 100% contained across all three drugs with directional dynamic coupling to the 6 catalytic zinc coordinating residues confirmed.
 - **False Safety Errors:** **0 (0.0%)** across all clinical evaluations.
 
+### 4. Multi-Body Allosteric Cumulants & Higher-Order Dynamics (Dodd et al. 2026 / Science Advances)
+
+| Performance Metric on Unseen Test Positions | Baseline Z-DynGNN (Pairwise) | Multi-Body Upgraded (Ours) | Relative Improvement |
+| :--- | :---: | :---: | :---: |
+| **Test Pearson $r$** | 0.6339 | **0.6612** | **+0.0273** |
+| **Normalized Pearson ($r / r_{\max}$)** | 64.26% | **67.03%** | **+2.77% of noise ceiling** |
+| **Test $R^2$ (Raw Explained Variance)** | 0.3161 | **0.3895** | **+23.2% relative gain** |
+| **Test Root Mean Squared Error (RMSE)** | 2.5560 | **2.4149** | **-0.1411** |
+| **Mean Conformal Prediction Width ($2B_i$)** | 15.46 log2-units | **12.90 log2-units** | **-16.6% contraction** |
+| **Empirical Conformal Coverage (95% Nominal)** | 99.18% | **98.69%** | **Certified $\ge 95\%$** |
+| **Critical False Safety Patient Errors** | **0 / 612 (0.00%)** | **0 / 612 (0.00%)** | **Zero errors maintained** |
+
 ---
 
 ## Roadmap
@@ -179,3 +190,4 @@ python scripts/evaluate_clinical.py
 - [x] **Step 10: Complete BLDB NDM-1 to NDM-77 Expansion with 3-Way Partition Isolation** (Evaluated all 48 hospital mutations across NDM-1 to NDM-77; 100% containment on pure TEST (n=7), 0 false safety errors out of 122 resistant hospital strain evaluations).
 - [x] **Step 11: Multi-Conformational Structural Shift Audit** (Comparative ANM/PRS across PDB 4HL2, 4RL0, 5ZGY, and 5YD7 in parallel caches; M154 allosteric driver coupling to zinc pocket conserved in 100% of evaluations).
 - [x] **Step 12: Decoupled Dual One-Sided Hypothesis Testing** (Decoupled Upper Safety Screening and Lower Activity Certification; generated 573 decisive test decisions, achieving up to 53.3% decisive triage rate with zero false safety errors).
+- [x] **Step 13: Multi-Body Allosteric Cumulants & Higher-Order Dynamics** (Translation of Dodd et al. 2026 *Science Advances* GBS emulation; regularized 6-body catalytic zinc cage log-determinants, 1,935 structural 3-cliques, boosting test Pearson $r$ to 0.6612 and $R^2$ to 0.3895 with 80/80 automated unit tests passing).

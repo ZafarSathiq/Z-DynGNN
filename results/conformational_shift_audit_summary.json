@@ -1,11 +1,23 @@
 {
+  "phase": "PHASE II: MULTI-CONFORMATIONAL STRUCTURAL DYNAMICS ENGINE",
   "canonical_reference": {
     "pdb_id": "3SPU",
+    "name": "Native Apo Reference State",
     "resolution": 1.3,
     "chain_id": "A",
     "num_residues": 228,
     "gnm_fiedler": 0.2831525317565103,
-    "dci_asym_antisymmetric": true
+    "msf_bfactor_pearson_r": 0.7077151310396496,
+    "m154_driver_coupling_to_zinc_pocket": {
+      "His120": 0.43161102983379684,
+      "His122": 0.15651824382321822,
+      "Asp124": 0.31890775876087063,
+      "His189": 0.20248202068972565,
+      "Cys208": 0.2636680206779593,
+      "His250": 0.11741571395421008
+    },
+    "cache_file": "dynamics_3spu.npz",
+    "locked_status": "Strictly Locked & Frozen"
   },
   "comparative_structures": {
     "4HL2": {
@@ -18,7 +30,7 @@
       "cache_file": "dynamics_4hl2.npz"
     },
     "4RL0": {
-      "name": "Meropenem-Bound Intermediate",
+      "name": "Meropenem-Bound Catalytic Intermediate",
       "resolution": 1.3,
       "chain_id": "B",
       "num_residues": 228,
@@ -27,7 +39,7 @@
       "cache_file": "dynamics_4rl0.npz"
     },
     "5ZGY": {
-      "name": "Ultra-High Resolution Structure",
+      "name": "Sub-Angstrom Resolution Structure at pH 7.5",
       "resolution": 0.95,
       "chain_id": "A",
       "num_residues": 228,
@@ -35,14 +47,14 @@
       "gnm_fiedler": 0.29821208878191124,
       "cache_file": "dynamics_5zgy.npz"
     },
-    "5YD7": {
-      "name": "VIM-2 Homolog Structure",
-      "resolution": 1.7,
+    "5O2E": {
+      "name": "Cephalosporin-Bound (Cefuroxime) State",
+      "resolution": 1.3,
       "chain_id": "A",
-      "num_residues": 231,
-      "mean_degree": 10.476190476190476,
-      "gnm_fiedler": 0.3320595421144365,
-      "cache_file": "dynamics_5yd7.npz"
+      "num_residues": 228,
+      "mean_degree": 10.350877192982455,
+      "gnm_fiedler": 0.281521863558929,
+      "cache_file": "dynamics_5o2e.npz"
     }
   },
   "conformational_shifts": {
@@ -146,6 +158,40 @@
         "3spu_apo": -0.045017445590411015,
         "current": -0.09340439674094658,
         "delta": -0.04838695115053557
+      }
+    },
+    "5O2E": {
+      "ca_rmsd_vs_3spu_angstroms": 0.730294887640189,
+      "loop_l3_msf_shift": {
+        "3spu_apo": 0.33093655570992236,
+        "current": 0.3351086527962795,
+        "delta": 0.004172097086357129
+      },
+      "loop_l8_msf_shift": {
+        "3spu_apo": 0.2170616569537485,
+        "current": 0.2007318737978096,
+        "delta": -0.016329783155938887
+      },
+      "m154_driver_coupling_to_zinc_pocket": {
+        "His120": 0.37434738166445714,
+        "His122": 0.07376071600617928,
+        "Asp124": 0.25044746443936616,
+        "His189": 0.13548811641092373,
+        "Cys208": 0.22851865389675902,
+        "His250": 0.08640146661744508
+      },
+      "delta_m154_driver_coupling_vs_3spu": {
+        "His120": -0.05726364816933971,
+        "His122": -0.08275752781703893,
+        "Asp124": -0.06846029432150447,
+        "His189": -0.06699390427880192,
+        "Cys208": -0.035149366781200286,
+        "His250": -0.031014247336765
+      },
+      "m248_zinc_pocket_coupling": {
+        "3spu_apo": -0.045017445590411015,
+        "current": -0.13169751352202377,
+        "delta": -0.08668006793161276
       }
     }
   }

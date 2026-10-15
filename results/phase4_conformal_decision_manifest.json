@@ -100,7 +100,7 @@
     "zdynegnn_ablation": {
       "quantile_up": 2.215,
       "test_coverage": 1.0,
-      "mean_margin": 5.228800571644608
+      "mean_margin": 5.018787446189542
     },
     "conclusion": "Z-DynGNN achieves tighter certified bounds and superior correlation, confirming it as the primary goal architecture."
   }

@@ -83,15 +83,15 @@ STRUCTURE_REGISTRY = [
         "resolution": 0.95,
     },
     {
-        "pdb_id": "5YD7",
-        "name": "VIM-2 Metallo-Beta-Lactamase Homolog",
-        "file": "5YD7.pdb",
+        "pdb_id": "5O2E",
+        "name": "Cephalosporin-Bound (Cefuroxime) State",
+        "file": "5O2E.pdb",
         "chain_id": "A",
-        "res_start": 32,
-        "res_end": 262,
-        "is_ndm1": False,
+        "res_start": 43,
+        "res_end": 270,
+        "is_ndm1": True,
         "is_canonical": False,
-        "resolution": 1.70,
+        "resolution": 1.30,
     },
 ]
 
@@ -339,6 +339,9 @@ def run_phase2_pipeline(
     with open(manifest_path, "w") as f:
         json.dump(phase2_manifest, f, indent=2)
     print(f"\n[+] Saved Phase II master manifest to {manifest_path}")
+    legacy_summary = res_p / "conformational_shift_audit_summary.json"
+    with open(legacy_summary, "w") as f:
+        json.dump(phase2_manifest, f, indent=2)
 
     return phase2_manifest
 

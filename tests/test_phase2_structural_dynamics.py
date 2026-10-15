@@ -10,7 +10,7 @@ CANONICAL_3SPU = Path("data/processed/dynamics_3spu.npz")
 CACHE_4HL2 = Path("data/processed/dynamics_4hl2.npz")
 CACHE_4RL0 = Path("data/processed/dynamics_4rl0.npz")
 CACHE_5ZGY = Path("data/processed/dynamics_5zgy.npz")
-CACHE_5YD7 = Path("data/processed/dynamics_5yd7.npz")
+CACHE_5O2E = Path("data/processed/dynamics_5o2e.npz")
 
 
 def test_phase2_artifacts_exist():
@@ -20,7 +20,7 @@ def test_phase2_artifacts_exist():
     assert CACHE_4HL2.exists(), "Run scripts/phase2_structural_dynamics.py first."
     assert CACHE_4RL0.exists(), "Run scripts/phase2_structural_dynamics.py first."
     assert CACHE_5ZGY.exists(), "Run scripts/phase2_structural_dynamics.py first."
-    assert CACHE_5YD7.exists(), "Run scripts/phase2_structural_dynamics.py first."
+    assert CACHE_5O2E.exists(), "Run scripts/phase2_structural_dynamics.py first."
 
     with open(MANIFEST_PATH) as f:
         data = json.load(f)
@@ -51,7 +51,7 @@ def test_m154_driver_invariant_universal():
 
     # 2. Check all comparative structures
     shifts = data["conformational_shifts"]
-    for pdb_id in ["4HL2", "4RL0", "5ZGY"]:
+    for pdb_id in ["4HL2", "4RL0", "5ZGY", "5O2E"]:
         m154_data = shifts[pdb_id]["m154_driver_coupling_to_zinc_pocket"]
         for lig, c_val in m154_data.items():
             assert c_val > 0.0, f"{pdb_id} M154 coupling to {lig} is not positive ({c_val})"
@@ -66,3 +66,4 @@ def test_substrate_induced_loop_clamping():
     # Loop L8 delta MSF must be negative (clamping / rigidification)
     assert shifts["4HL2"]["loop_l8_msf_shift"]["delta"] < 0.0
     assert shifts["4RL0"]["loop_l8_msf_shift"]["delta"] < 0.0
+    assert shifts["5O2E"]["loop_l8_msf_shift"]["delta"] < 0.0

@@ -140,6 +140,12 @@ def run_phase3_pipeline(
     edge_index = torch.from_numpy(ctx.edge_index)
     edge_dist = torch.from_numpy(ctx.edge_dist).view(-1, 1)
     dci_edge = torch.from_numpy(ctx.dci_edge).view(-1, 1)
+    # Load multi-body features tensor if present
+    mb_file = data_p / "multibody_3spu.npz"
+    if mb_file.exists():
+        node_mb = torch.from_numpy(np.load(mb_file)["node_multibody_features"]).float()
+    else:
+        node_mb = None
 
     # 3. Model benchmarking across all 3 primary conditions
     train_df = dms_df[dms_df["pos"].isin(split.train_positions)].copy().reset_index(drop=True)
@@ -186,12 +192,31 @@ def run_phase3_pipeline(
         print(f"  [2] Ridge Regression:    R2 = {ridge_metrics['r2_raw']:+.4f} | Pearson r = {ridge_metrics['pearson_raw']:.4f} (Norm: {ridge_metrics['pearson_normalized']:.4f})")
 
         # Core Model: Z-DynGNN (Frozen Checkpoint)
-        ckpt_path = ckpt_p / f"zdyn_gnn_{cond_name}.pt"
-        if not ckpt_path.exists():
-            raise FileNotFoundError(f"Checkpoint {ckpt_path} missing.")
+        mb_ckpt = ckpt_p / f"zdyn_gnn_multibody_{cond_name}.pt"
+        leg_ckpt = ckpt_p / f"zdyn_gnn_{cond_name}.pt"
+        arc_ckpt = Path("archive/checkpoints") / f"zdyn_gnn_{cond_name}.pt"
+
+        if mb_ckpt.exists():
+            ckpt_path = mb_ckpt
+            use_mb = True
+        elif leg_ckpt.exists():
+            ckpt_path = leg_ckpt
+            use_mb = False
+        elif arc_ckpt.exists():
+            ckpt_path = arc_ckpt
+            use_mb = False
+        else:
+            raise FileNotFoundError(f"Checkpoint for {cond_name} missing.")
 
         ckpt = torch.load(ckpt_path, map_location="cpu")
-        model = ZDynGNN(node_in_dim=34, num_rbf=16, hidden_dim=64, num_layers=3)
+        model = ZDynGNN(
+            node_in_dim=34,
+            num_rbf=16,
+            hidden_dim=64,
+            num_layers=3,
+            use_multibody=use_mb,
+            multibody_dim=6 if use_mb else 0,
+        )
         model.load_state_dict(ckpt["model_state_dict"])
         model.eval()
 
@@ -199,6 +224,7 @@ def run_phase3_pipeline(
             mu_t, sig_t = model(
                 node_x, edge_index, edge_dist=edge_dist, dci_edge=dci_edge,
                 mut_positions=t_pos_idx, mut_wt_idx=t_wt_idx, mut_aa_idx=t_mut_idx,
+                multibody_feats=node_mb if use_mb else None,
             )
         zdyn_mu = mu_t.numpy().flatten()
         zdyn_sig = sig_t.numpy().flatten()

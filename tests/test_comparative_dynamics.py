@@ -9,18 +9,18 @@ SUMMARY_PATH = Path("results/conformational_shift_audit_summary.json")
 CACHE_4HL2 = Path("data/processed/dynamics_4hl2.npz")
 CACHE_4RL0 = Path("data/processed/dynamics_4rl0.npz")
 CACHE_5ZGY = Path("data/processed/dynamics_5zgy.npz")
-CACHE_5YD7 = Path("data/processed/dynamics_5yd7.npz")
+CACHE_5O2E = Path("data/processed/dynamics_5o2e.npz")
 CANONICAL_3SPU = Path("data/processed/dynamics_3spu.npz")
 
 
 def test_comparative_caches_exist():
     """Verify that all comparative dynamics caches exist and canonical 3SPU is untouched."""
     assert CANONICAL_3SPU.exists(), "Canonical 3SPU cache missing!"
-    assert CACHE_4HL2.exists(), "Run scripts/compute_comparative_dynamics.py first."
-    assert CACHE_4RL0.exists(), "Run scripts/compute_comparative_dynamics.py first."
-    assert CACHE_5ZGY.exists(), "Run scripts/compute_comparative_dynamics.py first."
-    assert CACHE_5YD7.exists(), "Run scripts/compute_comparative_dynamics.py first."
-    assert SUMMARY_PATH.exists(), "Run scripts/compute_comparative_dynamics.py first."
+    assert CACHE_4HL2.exists(), "Run scripts/phase2_structural_dynamics.py first."
+    assert CACHE_4RL0.exists(), "Run scripts/phase2_structural_dynamics.py first."
+    assert CACHE_5ZGY.exists(), "Run scripts/phase2_structural_dynamics.py first."
+    assert CACHE_5O2E.exists(), "Run scripts/phase2_structural_dynamics.py first."
+    assert SUMMARY_PATH.exists(), "Run scripts/phase2_structural_dynamics.py first."
 
 
 def test_canonical_3spu_isolation_invariant():
@@ -34,7 +34,7 @@ def test_canonical_3spu_isolation_invariant():
 
 def test_comparative_dynamics_antisymmetry():
     """Verify that DCI_asym is strictly antisymmetric across all comparative structures."""
-    for path in [CACHE_4HL2, CACHE_4RL0, CACHE_5ZGY]:
+    for path in [CACHE_4HL2, CACHE_4RL0, CACHE_5ZGY, CACHE_5O2E]:
         d = np.load(path)
         assert len(d["residue_numbers"]) == 228
         assert d["dci_asym"].shape == (228, 228)
@@ -47,7 +47,7 @@ def test_m154_allosteric_driver_conservation():
     with open(SUMMARY_PATH) as f:
         data = json.load(f)
 
-    for pdb_id in ["4HL2", "4RL0", "5ZGY"]:
+    for pdb_id in ["4HL2", "4RL0", "5ZGY", "5O2E"]:
         shifts = data["conformational_shifts"][pdb_id]
         m154_couplings = shifts["m154_driver_coupling_to_zinc_pocket"]
         # All 6 zinc coordinating residues must have positive driver coupling from M154
@@ -64,3 +64,4 @@ def test_ca_rmsd_structural_integrity():
     assert shifts["4HL2"]["ca_rmsd_vs_3spu_angstroms"] < 1.0
     assert shifts["4RL0"]["ca_rmsd_vs_3spu_angstroms"] < 1.0
     assert shifts["5ZGY"]["ca_rmsd_vs_3spu_angstroms"] < 1.0
+    assert shifts["5O2E"]["ca_rmsd_vs_3spu_angstroms"] < 1.0

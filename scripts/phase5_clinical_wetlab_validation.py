@@ -83,6 +83,12 @@ def run_phase5_pipeline(
     edge_index = torch.from_numpy(ctx.edge_index)
     edge_dist = torch.from_numpy(ctx.edge_dist).view(-1, 1)
     dci_edge = torch.from_numpy(ctx.dci_edge).view(-1, 1)
+    # Load multi-body features tensor if present
+    mb_file = data_p / "multibody_3spu.npz"
+    if mb_file.exists():
+        node_mb = torch.from_numpy(np.load(mb_file)["node_multibody_features"]).float()
+    else:
+        node_mb = None
 
     # 1. Ingest Full BLDB Catalog (NDM-1 to NDM-77)
     with open(catalog_path) as f:
@@ -155,17 +161,45 @@ def run_phase5_pipeline(
 
     # Evaluate BLDB catalog across all 3 conditions
     for drug_name, cond, conc in CONDITIONS:
-        ckpt_path = ckpt_p / f"zdyn_gnn_{cond}.pt"
+        mb_ckpt = ckpt_p / f"zdyn_gnn_multibody_{cond}.pt"
+        leg_ckpt = ckpt_p / f"zdyn_gnn_{cond}.pt"
+        arc_ckpt = Path("archive/checkpoints") / f"zdyn_gnn_{cond}.pt"
+
+        if mb_ckpt.exists():
+            ckpt_path = mb_ckpt
+            use_mb = True
+        elif leg_ckpt.exists():
+            ckpt_path = leg_ckpt
+            use_mb = False
+        elif arc_ckpt.exists():
+            ckpt_path = arc_ckpt
+            use_mb = False
+        else:
+            raise FileNotFoundError(f"Checkpoint for {cond} not found in {ckpt_p} or archive/checkpoints.")
+
         ckpt = torch.load(ckpt_path, map_location="cpu")
-        model = ZDynGNN(node_in_dim=34, num_rbf=16, hidden_dim=64, num_layers=3)
+        model = ZDynGNN(
+            node_in_dim=34,
+            num_rbf=16,
+            hidden_dim=64,
+            num_layers=3,
+            use_multibody=use_mb,
+            multibody_dim=6 if use_mb else 0,
+        )
         model.load_state_dict(ckpt["model_state_dict"])
         model.eval()
 
         with torch.no_grad():
-            c_mu, c_sig = model(node_x, edge_index, edge_dist=edge_dist, dci_edge=dci_edge,
-                                mut_positions=cal_p, mut_wt_idx=cal_w, mut_aa_idx=cal_m)
-            b_mu, b_sig = model(node_x, edge_index, edge_dist=edge_dist, dci_edge=dci_edge,
-                                mut_positions=bldb_p, mut_wt_idx=bldb_w, mut_aa_idx=bldb_m)
+            c_mu, c_sig = model(
+                node_x, edge_index, edge_dist=edge_dist, dci_edge=dci_edge,
+                mut_positions=cal_p, mut_wt_idx=cal_w, mut_aa_idx=cal_m,
+                multibody_feats=node_mb if use_mb else None,
+            )
+            b_mu, b_sig = model(
+                node_x, edge_index, edge_dist=edge_dist, dci_edge=dci_edge,
+                mut_positions=bldb_p, mut_wt_idx=bldb_w, mut_aa_idx=bldb_m,
+                multibody_feats=node_mb if use_mb else None,
+            )
 
         c_mu_np = c_mu.numpy().flatten()
         c_sig_np = c_sig.numpy().flatten()
@@ -257,14 +291,40 @@ def run_phase5_pipeline(
         print(f"    False Safety Errors:                 {false_safety_count} (0.00%)")
 
     # 3. Evaluate Physical EC50 Assays on Ampicillin Model (256.0_AMP)
-    ckpt_amp = torch.load(ckpt_p / "zdyn_gnn_256.0_AMP.pt", map_location="cpu")
-    model_amp = ZDynGNN(node_in_dim=34, num_rbf=16, hidden_dim=64, num_layers=3)
+    mb_amp = ckpt_p / "zdyn_gnn_multibody_256.0_AMP.pt"
+    leg_amp = ckpt_p / "zdyn_gnn_256.0_AMP.pt"
+    arc_amp = Path("archive/checkpoints") / "zdyn_gnn_256.0_AMP.pt"
+
+    if mb_amp.exists():
+        ckpt_amp_path = mb_amp
+        use_mb_amp = True
+    elif leg_amp.exists():
+        ckpt_amp_path = leg_amp
+        use_mb_amp = False
+    elif arc_amp.exists():
+        ckpt_amp_path = arc_amp
+        use_mb_amp = False
+    else:
+        raise FileNotFoundError("Ampicillin checkpoint not found in checkpoints/ or archive/checkpoints/.")
+
+    ckpt_amp = torch.load(ckpt_amp_path, map_location="cpu")
+    model_amp = ZDynGNN(
+        node_in_dim=34,
+        num_rbf=16,
+        hidden_dim=64,
+        num_layers=3,
+        use_multibody=use_mb_amp,
+        multibody_dim=6 if use_mb_amp else 0,
+    )
     model_amp.load_state_dict(ckpt_amp["model_state_dict"])
     model_amp.eval()
 
     with torch.no_grad():
-        s_mu, s_sig = model_amp(node_x, edge_index, edge_dist=edge_dist, dci_edge=dci_edge,
-                                mut_positions=sd5_s_p, mut_wt_idx=sd5_s_w, mut_aa_idx=sd5_s_m)
+        s_mu, s_sig = model_amp(
+            node_x, edge_index, edge_dist=edge_dist, dci_edge=dci_edge,
+            mut_positions=sd5_s_p, mut_wt_idx=sd5_s_w, mut_aa_idx=sd5_s_m,
+            multibody_feats=node_mb if use_mb_amp else None,
+        )
     s_mu_np = s_mu.numpy().flatten()
     s_sig_np = s_sig.numpy().flatten()
 
