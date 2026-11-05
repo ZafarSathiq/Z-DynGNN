@@ -1,0 +1,16 @@
+{
+  "execution_timestamp": "2026-11-05 05:35:42 UTC",
+  "elapsed_seconds": 0.41,
+  "target_condition": "0.25_MEM",
+  "conformal_alpha": 0.05,
+  "conformal_quantile_upper": 1.8325,
+  "combinatorial_space_size": 70,
+  "total_synthons_parsed": 23,
+  "compatibility_graph_vertices": 60,
+  "compatibility_graph_edges": 209,
+  "candidate_assemblies_extracted": 70,
+  "valid_molecules_assembled": 70,
+  "total_screened_leads": 70,
+  "resistance_proof_leads_found": 70,
+  "output_leads_csv": "results/csd_search_ndm1/resistance_proof_leads.csv"
+}
