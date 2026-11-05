@@ -93,7 +93,7 @@ class RidgeBaseline:
     ) -> "RidgeBaseline":
         """Fit Ridge regression on training set."""
         X = self._extract_features(df, node_features_map)
-        y = df[score_col].values.astype(np.float32)
+        y = np.asarray(df[score_col], dtype=np.float32)
         self.model.fit(X, y)
 
         preds = self.model.predict(X)

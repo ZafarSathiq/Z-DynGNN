@@ -27,3 +27,6 @@ htmlcov/
 .env
 *.env
 .env.*
+
+# Agent local state & sleep caches
+.skillopt-sleep/

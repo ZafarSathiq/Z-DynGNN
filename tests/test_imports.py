@@ -7,6 +7,7 @@ def test_imports():
     import zdyngnn.models
     import zdyngnn.conformal
     import zdyngnn.eval
+    import zdyngnn.csd
     assert zdyngnn.__version__ == "0.1.0"
 
 def test_zdyn_gnn_forward():

@@ -315,11 +315,10 @@ def train_and_benchmark_multibody(
 
     # 5. Load Baseline Results for Side-by-Side Comparison (if baseline exists)
     baseline_ckpt_path = Path(f"checkpoints/zdyn_gnn_{condition}.pt")
-    arc_ckpt_path = Path(f"archive/checkpoints/zdyn_gnn_{condition}.pt")
-    has_baseline = baseline_ckpt_path.exists() or arc_ckpt_path.exists()
+    has_baseline = baseline_ckpt_path.exists()
 
     if has_baseline:
-        ckpt_to_load = baseline_ckpt_path if baseline_ckpt_path.exists() else arc_ckpt_path
+        ckpt_to_load = baseline_ckpt_path
         base_model = ZDynGNN(node_in_dim=34, hidden_dim=64, num_layers=3, use_multibody=False).to(device)
         base_ckpt = torch.load(ckpt_to_load, map_location=device)
         base_model.load_state_dict(base_ckpt["model_state_dict"])

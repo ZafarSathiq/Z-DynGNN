@@ -11,19 +11,22 @@ Features:
   - Implements sub-linear combinatorial search avoiding full library enumeration.
 """
 from dataclasses import dataclass, field
-import json
 import logging
 from pathlib import Path
-import re
 import tarfile
-from typing import Any, Dict, Generator, List, Optional, Set, Tuple
+from typing import Any, Dict, Generator, List, Optional, Set, Tuple, Union
 import zipfile
 import numpy as np
 import pandas as pd
-from typing import Any, Dict, Generator, List, Optional, Set, Tuple, Union
 from rdkit import Chem
-from rdkit.Chem import AllChem, Descriptors, rdMolDescriptors
-
+from rdkit.Chem.rdChemReactions import ReactionFromSmarts
+from rdkit.Chem.rdMolDescriptors import (
+    CalcCrippenDescriptors,
+    CalcExactMolWt,
+    CalcNumHBA,
+    CalcNumHBD,
+    CalcNumRotatableBonds,
+)
 logger = logging.getLogger(__name__)
 
 # Canonical SMARTS patterns for dual-zinc chelators in metallo-beta-lactamases (NDM-1)
@@ -118,11 +121,11 @@ class Synthon:
             if pharmacophore_type is None:
                 pharmacophore_type = "zn_chelator" if is_zinc_chelator(mol) else "neutral"
 
-            mw = float(Descriptors.MolWt(mol))
-            logp = float(Descriptors.MolLogP(mol))
-            hbd = int(rdMolDescriptors.CalcNumHBD(mol))
-            hba = int(rdMolDescriptors.CalcNumHBA(mol))
-            rot_bonds = int(rdMolDescriptors.CalcNumRotatableBonds(mol))
+            mw = float(CalcExactMolWt(mol))
+            logp = float(CalcCrippenDescriptors(mol)[0])
+            hbd = int(CalcNumHBD(mol))
+            hba = int(CalcNumHBA(mol))
+            rot_bonds = int(CalcNumRotatableBonds(mol))
 
             # Empirical heuristic estimation of synthetic accessibility (1.0 to 3.0 for catalog synthons)
             sa_est = min(5.0, 1.0 + 0.003 * mw + 0.1 * rot_bonds)
@@ -160,7 +163,7 @@ class ChemicalReactionRule:
         self.name = name
         self.smarts = smarts
         self.roles = roles
-        self.rxn = AllChem.ReactionFromSmarts(smarts)
+        self.rxn = ReactionFromSmarts(smarts)
         if self.rxn is None:
             raise ValueError(f"Invalid reaction SMARTS for {reaction_id}: {smarts}")
 
@@ -198,7 +201,8 @@ class ChemicalReactionRule:
 class CombinatorialSpaceParser:
     """Native open-source parser and assembler for proprietary combinatorial .space files."""
 
-    def __init__(self):
+    def __init__(self, space_path: Optional[Union[str, Path]] = None):
+        self.space_path = Path(space_path) if space_path is not None else None
         self.reactions: Dict[str, ChemicalReactionRule] = {}
         self.synthons: Dict[str, List[Synthon]] = {}
         self.compatibility_matrix: Dict[Tuple[str, str], bool] = {}
@@ -212,6 +216,14 @@ class CombinatorialSpaceParser:
                 roles=r_data["roles"],
             )
 
+    def load(self) -> "CombinatorialSpaceParser":
+        """Load space from configured space_path."""
+        if self.space_path is None:
+            raise ValueError("No space_path configured for CombinatorialSpaceParser.")
+        if self.space_path.is_dir():
+            return self.load_from_directory(self.space_path)
+        else:
+            return self.load_space_archive(self.space_path)
     def add_reaction(self, reaction_id: str, name: str, smarts: str, roles: List[str]) -> "CombinatorialSpaceParser":
         """Register a chemical reaction transformation rule."""
         rule = ChemicalReactionRule(reaction_id, name, smarts, roles)
@@ -287,6 +299,26 @@ class CombinatorialSpaceParser:
 
         return self
 
+    def load_space_archive(self, archive_path: Union[str, Path]) -> "CombinatorialSpaceParser":
+        """Ingest compressed vendor space archive (.space, .tar.gz, .zip)."""
+        p = Path(archive_path)
+        if not p.exists():
+            raise FileNotFoundError(f"Archive not found: {archive_path}")
+
+        import tempfile
+        if tarfile.is_tarfile(p):
+            with tarfile.open(p, "r:*") as tar:
+                with tempfile.TemporaryDirectory() as tmp_dir:
+                    tar.extractall(tmp_dir)
+                    return self.load_from_directory(tmp_dir)
+        elif zipfile.is_zipfile(p):
+            with zipfile.ZipFile(p, "r") as zf:
+                with tempfile.TemporaryDirectory() as tmp_dir:
+                    zf.extractall(tmp_dir)
+                    return self.load_from_directory(tmp_dir)
+        else:
+            raise ValueError(f"Unsupported archive format: {archive_path}")
+        return self
     def query_zinc_chelators(self) -> List[Synthon]:
         """Extract all registered synthons displaying dual-zinc chelating motifs."""
         chelators: List[Synthon] = []
@@ -337,23 +369,26 @@ class CombinatorialSpaceParser:
             for partner in partner_synthons:
                 if len(candidates) >= max_candidates:
                     break
-                synthon_pair = [None, None]
-                synthon_pair[core_role_idx] = core_synthon
-                synthon_pair[other_role_indices[0]] = partner
+                if core_role_idx == 0:
+                    synthon_pair: List[Synthon] = [core_synthon, partner]
+                else:
+                    synthon_pair = [partner, core_synthon]
 
                 prod = self.assemble_molecule(reaction_id, synthon_pair)
                 if prod is not None:
                     prod_smiles = Chem.MolToSmiles(prod)
-                    sa_score = min(5.0, 1.0 + 0.003 * Descriptors.MolWt(prod) + 0.1 * rdMolDescriptors.CalcNumRotatableBonds(prod))
+                    mw_prod = float(CalcExactMolWt(prod))
+                    rot_prod = int(CalcNumRotatableBonds(prod))
+                    sa_score = min(5.0, 1.0 + 0.003 * mw_prod + 0.1 * rot_prod)
                     candidates.append({
                         "assembly_id": f"{core_synthon.synthon_id}+{partner.synthon_id}",
                         "reaction_id": reaction_id,
                         "core_synthon_id": core_synthon.synthon_id,
                         "partner_synthon_id": partner.synthon_id,
                         "smiles": prod_smiles,
-                        "molecular_weight": float(Descriptors.MolWt(prod)),
-                        "logp": float(Descriptors.MolLogP(prod)),
-                        "rotatable_bonds": int(rdMolDescriptors.CalcNumRotatableBonds(prod)),
+                        "molecular_weight": mw_prod,
+                        "logp": float(CalcCrippenDescriptors(prod)[0]),
+                        "rotatable_bonds": rot_prod,
                         "sa_score": sa_score,
                     })
 

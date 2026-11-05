@@ -163,7 +163,6 @@ def run_phase5_pipeline(
     for drug_name, cond, conc in CONDITIONS:
         mb_ckpt = ckpt_p / f"zdyn_gnn_multibody_{cond}.pt"
         leg_ckpt = ckpt_p / f"zdyn_gnn_{cond}.pt"
-        arc_ckpt = Path("archive/checkpoints") / f"zdyn_gnn_{cond}.pt"
 
         if mb_ckpt.exists():
             ckpt_path = mb_ckpt
@@ -171,11 +170,8 @@ def run_phase5_pipeline(
         elif leg_ckpt.exists():
             ckpt_path = leg_ckpt
             use_mb = False
-        elif arc_ckpt.exists():
-            ckpt_path = arc_ckpt
-            use_mb = False
         else:
-            raise FileNotFoundError(f"Checkpoint for {cond} not found in {ckpt_p} or archive/checkpoints.")
+            raise FileNotFoundError(f"Checkpoint for {cond} not found in {ckpt_p}.")
 
         ckpt = torch.load(ckpt_path, map_location="cpu")
         model = ZDynGNN(
@@ -293,7 +289,6 @@ def run_phase5_pipeline(
     # 3. Evaluate Physical EC50 Assays on Ampicillin Model (256.0_AMP)
     mb_amp = ckpt_p / "zdyn_gnn_multibody_256.0_AMP.pt"
     leg_amp = ckpt_p / "zdyn_gnn_256.0_AMP.pt"
-    arc_amp = Path("archive/checkpoints") / "zdyn_gnn_256.0_AMP.pt"
 
     if mb_amp.exists():
         ckpt_amp_path = mb_amp
@@ -301,11 +296,8 @@ def run_phase5_pipeline(
     elif leg_amp.exists():
         ckpt_amp_path = leg_amp
         use_mb_amp = False
-    elif arc_amp.exists():
-        ckpt_amp_path = arc_amp
-        use_mb_amp = False
     else:
-        raise FileNotFoundError("Ampicillin checkpoint not found in checkpoints/ or archive/checkpoints/.")
+        raise FileNotFoundError(f"Ampicillin checkpoint not found in {ckpt_p}.")
 
     ckpt_amp = torch.load(ckpt_amp_path, map_location="cpu")
     model_amp = ZDynGNN(

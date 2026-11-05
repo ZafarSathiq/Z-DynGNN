@@ -17,7 +17,6 @@ from typing import Any, Dict, Generator, List, Optional, Set, Tuple, Union
 import networkx as nx
 import numpy as np
 from rdkit import Chem
-from rdkit.Chem import AllChem
 
 from zdyngnn.csd.space_parser import ChemicalReactionRule, Synthon
 
@@ -258,7 +257,8 @@ class PharmacophoreCompatibilityGraph:
         nodes = sorted(list(self.graph.nodes()))
         if len(nodes) == 0:
             return np.zeros((0, 0), dtype=np.float32)
-        return nx.to_numpy_array(self.graph, nodelist=nodes, dtype=np.float32)
+        adj = nx.to_numpy_array(self.graph, nodelist=nodes)
+        return np.asarray(adj, dtype=np.float32)
 
     def get_vertex_weights(self) -> np.ndarray:
         """Return array of vertex weights w of shape (V,)."""
@@ -267,13 +267,13 @@ class PharmacophoreCompatibilityGraph:
 
     def find_all_cliques(self, min_size: int = 2) -> List[List[SynthonMatch]]:
         """Extract all maximal cliques of size >= min_size using the Bron-Kerbosch algorithm."""
-        match_map = {m.match_id: m for m in self.matches}
+        match_map: Dict[Any, SynthonMatch] = {m.match_id: m for m in self.matches}
         raw_cliques = list(nx.find_cliques(self.graph))
         valid_cliques = []
 
         for c_nodes in raw_cliques:
             if len(c_nodes) >= min_size:
-                clique_matches = [match_map[nid] for nid in c_nodes]
+                clique_matches = [match_map[nid] for nid in c_nodes if nid in match_map]
                 valid_cliques.append(clique_matches)
 
         # Sort cliques by sum of match scores in descending order

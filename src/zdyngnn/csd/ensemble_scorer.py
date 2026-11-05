@@ -19,33 +19,16 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from rdkit import Chem
-from rdkit.Chem import AllChem, Descriptors, rdMolDescriptors
+from rdkit.Chem.rdDepictor import Compute2DCoords
+from rdkit.Chem.rdDistGeom import EmbedMolecule
+from rdkit.Chem.rdPartialCharges import ComputeGasteigerCharges
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 from zdyngnn.models.dataset import ProteinGraphContext
+from zdyngnn.models.gnn import GaussianRBF
 
 logger = logging.getLogger(__name__)
-
-
-class GaussianRBF(nn.Module):
-    """Radial Basis Function expansion of continuous 3D distances."""
-
-    def __init__(self, num_centers: int = 16, d_min: float = 0.0, d_max: float = 6.0):
-        super().__init__()
-        self.num_centers = num_centers
-        centers = torch.linspace(d_min, d_max, num_centers)
-        self.register_buffer("centers", centers)
-        step = (d_max - d_min) / max(1, num_centers - 1)
-        gamma = 0.5 / (step ** 2)
-        self.register_buffer("gamma", torch.tensor(gamma, dtype=torch.float32))
-
-    def forward(self, d: torch.Tensor) -> torch.Tensor:
-        """Expand distance tensor d of shape (..., 1) or (...) into (..., num_centers)."""
-        if d.dim() == 1:
-            d = d.unsqueeze(-1)
-        return torch.exp(-self.gamma * (d - self.centers) ** 2)
 
 
 def extract_ligand_features(mol: Chem.Mol) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -70,16 +53,16 @@ def extract_ligand_features(mol: Chem.Mol) -> Tuple[torch.Tensor, torch.Tensor]:
 
     m_h = Chem.AddHs(m)
     try:
-        AllChem.ComputeGasteigerCharges(m_h)
+        ComputeGasteigerCharges(m_h)
     except Exception:
         pass
 
     # Generate 3D conformer if not present
     if m.GetNumConformers() == 0:
-        res = AllChem.EmbedMolecule(m, randomSeed=42, useExpTorsionAnglePrefs=True, useBasicKnowledge=True)
+        res = EmbedMolecule(m, randomSeed=42, useExpTorsionAnglePrefs=True, useBasicKnowledge=True)
         if res != 0:
             # Fallback to standard 2D layout with zero z-coordinate
-            AllChem.Compute2DCoords(m)
+            Compute2DCoords(m)
 
     conf = m.GetConformer() if m.GetNumConformers() > 0 else None
 

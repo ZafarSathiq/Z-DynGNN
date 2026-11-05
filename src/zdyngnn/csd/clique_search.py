@@ -12,13 +12,10 @@ Formulation:
     satisfy distance constraints and chemical coupling rules.
 """
 from dataclasses import dataclass, field
-import heapq
 import logging
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import networkx as nx
-import numpy as np
-
 logger = logging.getLogger(__name__)
 
 
@@ -33,7 +30,7 @@ class SynthonAssemblyCandidate:
     edge_weight: float               # Sum of internal compatibility edge weights
     subgraph_density: float          # 2 * |E_S| / (|S| * (|S| - 1)), exactly 1.0 for cliques
     is_clique: bool                  # True if induced subgraph is fully connected
-    node_indices: List[int] = field(default_factory=list)
+    node_indices: List[Any] = field(default_factory=list)
 
 
 class MaxWeightCliqueSolver:
@@ -50,7 +47,7 @@ class MaxWeightCliqueSolver:
         self.max_size = max_size
 
         # Extract vertex weights (default 1.0)
-        self.weights: Dict[int, float] = {}
+        self.weights: Dict[Any, float] = {}
         for node in graph.nodes():
             self.weights[node] = float(graph.nodes[node].get("weight", 1.0))
 
@@ -72,14 +69,14 @@ class MaxWeightCliqueSolver:
             # If clique exceeds max_size, consider all sub-cliques of size max_size
             if c_len > self.max_size:
                 # Subdivide by taking top-weight subset of size max_size
-                sorted_nodes = sorted(c_nodes, key=lambda n: self.weights[n], reverse=True)
+                sorted_nodes = sorted(c_nodes, key=lambda n: self.weights.get(n, 1.0), reverse=True)
                 selected_nodes = sorted_nodes[:self.max_size]
             else:
                 selected_nodes = c_nodes
 
             subg = self.graph.subgraph(selected_nodes)
             k = len(selected_nodes)
-            v_weight = sum(self.weights[n] for n in selected_nodes)
+            v_weight = sum(self.weights.get(n, 1.0) for n in selected_nodes)
             e_weight = sum(d.get("weight", 1.0) for _, _, d in subg.edges(data=True))
 
             synthon_ids = [self.graph.nodes[n].get("synthon_id", f"SYN_{n}") for n in selected_nodes]
@@ -149,7 +146,7 @@ class DenseSubgraphPeelingSolver:
 
             # Find vertex with minimum degree
             degrees = dict(current_graph.degree())
-            min_node = min(degrees, key=degrees.get)
+            min_node = min(degrees.keys(), key=lambda k: degrees[k])
             current_graph.remove_node(min_node)
 
         if len(best_nodes) < self.min_size:

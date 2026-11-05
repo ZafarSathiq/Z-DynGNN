@@ -194,7 +194,6 @@ def run_phase3_pipeline(
         # Core Model: Z-DynGNN (Frozen Checkpoint)
         mb_ckpt = ckpt_p / f"zdyn_gnn_multibody_{cond_name}.pt"
         leg_ckpt = ckpt_p / f"zdyn_gnn_{cond_name}.pt"
-        arc_ckpt = Path("archive/checkpoints") / f"zdyn_gnn_{cond_name}.pt"
 
         if mb_ckpt.exists():
             ckpt_path = mb_ckpt
@@ -202,11 +201,8 @@ def run_phase3_pipeline(
         elif leg_ckpt.exists():
             ckpt_path = leg_ckpt
             use_mb = False
-        elif arc_ckpt.exists():
-            ckpt_path = arc_ckpt
-            use_mb = False
         else:
-            raise FileNotFoundError(f"Checkpoint for {cond_name} missing.")
+            raise FileNotFoundError(f"Checkpoint for {cond_name} missing in {ckpt_p}.")
 
         ckpt = torch.load(ckpt_path, map_location="cpu")
         model = ZDynGNN(
